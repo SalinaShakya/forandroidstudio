@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">MyView</string>
+    <string name="market">Market</string>
+    <string name="featured_products">Featured Products</string>
+    <string name="categories">Categories</string>
+</resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://android.com"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="8dp">
+
+    <!-- The White Container Box -->
+    <LinearLayout
+        android:id="@+id/category_box"
+        android:layout_width="85dp"
+        android:layout_height="95dp"
+        android:background="@drawable/rectangle"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="8dp">
+
+        <!-- Top Position: The Image (Scales inside the top space) -->
+        <ImageView
+            android:id="@+id/category_image"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:contentDescription="Category Icon"
+            android:src="@drawable/esewa"
+            app:tint="#1DB954" />
+
+        <!-- Bottom Position: Text placed clearly BELOW the image -->
+        <TextView
+            android:id="@+id/category_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="Mobile"
+            android:textColor="#000000"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</LinearLayout>
