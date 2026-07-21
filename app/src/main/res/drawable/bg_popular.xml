@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+        android:shape="rectangle">
+
+        <!-- ⚪ The inside container color of the pill -->
+        <solid android:color="#F5F5F5" />
+
+        <stroke
+            android:width="1dp"
+            android:color="#E0E0E0" />
+
+        <!-- 🟢 This completely rounds the corners to make it a pill shape -->
+        <corners android:radius="100dp" />
+    </shape>
+

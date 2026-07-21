@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+//    alias(libs.plugins.ksp)
 }
 
 android {
@@ -31,8 +32,8 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    buildFeatures{
-        viewBinding=true
+    buildFeatures {
+        viewBinding = true
     }
 
 
@@ -50,10 +51,19 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
-        // The core Retrofit library
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
 
-        // Converter library to automatically translate JSON data into Kotlin/Java objects
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+//    implementation("com.squareup.retrofit2:retrofit:2.10.0")
+//    implementation("com.squareup.retrofit2:converter-gson:2.10.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+
+
+    implementation(libs.glide)
+//    ksp(libs.compiler)
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
+
 
 }

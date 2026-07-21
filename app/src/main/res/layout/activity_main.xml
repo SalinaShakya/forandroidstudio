@@ -176,6 +176,7 @@
 
             tools:listitem="@android:layout/activity_list_item"
 
+
             />
 
         <TextView
@@ -219,44 +220,19 @@
         </FrameLayout>
 
 
-        <LinearLayout
-            android:id="@+id/featured_products_container"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/featuredRecyclerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:orientation="horizontal"
-            android:weightSum="2"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_featured_label"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_featured_label">
-
-            <!-- Left Product Box -->
-
-            <!-- Right Product Box -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="220dp"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="2dp">
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="220dp"
-                android:layout_weight="1"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="24dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardElevation="2dp">
-                <!-- Your product content (image/price) goes here -->
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/featured_products"/>
 
         <FrameLayout
             android:id="@+id/fl_arrow_button"
@@ -282,6 +258,132 @@
                 app:srcCompat="@drawable/arrow"
                 tools:ignore="ContentDescription" />
         </FrameLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:textStyle="bold"
+                android:textColor="#222222"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Hot Deals"
+                android:id="@+id/hotdeals"
+                app:layout_constraintTop_toBottomOf="@+id/featuredRecyclerView"
+                />
+        <FrameLayout
+            android:id="@+id/fl_arrow_buttonnn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/hotdeals"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+            <ImageView
+                android:id="@+id/imageView222"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/rectangle_279"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/imageView333"
+                android:layout_width="20dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/arrow"
+                tools:ignore="ContentDescription" />
+        </FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/hotdealscarousel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/hotdeals"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/featured_products"/>
+
+        <ImageView
+            android:id="@+id/greenbanner"
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hotdealscarousel"
+            app:srcCompat="@drawable/greenbanner" />
+        <!-- 1. The Label Header for your tags -->
+        <TextView
+            android:id="@+id/tv_most_popular_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            android:text="Most Popular"
+            android:textStyle="bold"
+            android:textColor="#222222"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/greenbanner" />
+
+        <!-- 2. The wrapping RecyclerView for the tags -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/most_popular_tags_recycler"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_most_popular_label"
+            tools:listitem="@android:layout/activity_list_item" />
+        <TextView
+            android:id="@+id/popularbrand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            android:text="Popular Brand"
+            android:textStyle="bold"
+            android:textColor="#222222"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/most_popular_tags_recycler"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/popularrecycler"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+
+            app:layout_constraintTop_toBottomOf="@id/popularbrand"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/the_hotdeals" />
+
+
+        <!-- 🟢 POINT IT TO YOUR POPULAR PRODUCT LAYOUT -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
