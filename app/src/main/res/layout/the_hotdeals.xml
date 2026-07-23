@@ -87,7 +87,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:backgroundTint="#4CAF50"
-                android:src="@drawable/ic_heart"
+                android:src="@drawable/ic_add"
                 app:tint="@android:color/white"
                 />
         </LinearLayout>

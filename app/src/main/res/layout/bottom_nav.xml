@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="8dp"
+    android:background="@android:color/white"
+    android:weightSum="4">
+
+    <!-- Shop -->
+    <LinearLayout
+        android:id="@+id/navforshop"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/navshop"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/homenav"
+            android:contentDescription="Shop"/>
+
+        <TextView
+            android:id="@+id/shoptext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Shop"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#2DBE17"/>
+    </LinearLayout>
+
+    <!-- Cart -->
+    <LinearLayout
+        android:id="@+id/navforcart"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/navtroll"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/navcart"
+            android:contentDescription="Cart"/>
+
+        <TextView
+            android:id="@+id/cartText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Cart"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#2DBE17"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <!-- Favourite -->
+    <LinearLayout
+        android:id="@+id/navforfavourite"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/navFavorite"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/navheart"
+            android:contentDescription="Favourite"/>
+
+        <TextView
+            android:id="@+id/favouritetext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Favorite"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#2DBE17"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <!-- More -->
+    <LinearLayout
+        android:id="@+id/navformore"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/navDots"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/navmore"
+            android:contentDescription="More"/>
+
+        <TextView
+            android:id="@+id/moretext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="More"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#2DBE17"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+</LinearLayout>
