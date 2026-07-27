@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myview.R
-import com.example.myview.RetrofitClient
+import com.example.myview.data.api.RetrofitClient
 import com.example.myview.adapter.CarouselAdapter
 import com.example.myview.adapter.Category
 import com.example.myview.adapter.CategoryAdapter
@@ -76,7 +76,7 @@ class FragmentHome : Fragment() {
 
         val imageList = mutableListOf(
             R.drawable.yellowbanner,
-            R.drawable.yellowbanner
+            R.drawable.esewa
         )
 
         binding.carouselRecyclerView.adapter = CarouselAdapter(imageList)

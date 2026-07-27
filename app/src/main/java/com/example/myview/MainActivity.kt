@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.navforshop.setOnClickListener {
             loadFragment(FragmentHome())
             updateBottomNav("shop")
+
         }
 
         binding.bottomNav.navtroll.setOnClickListener {
@@ -46,27 +47,57 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.mainFrame, FragmentHome())
                 .commit()
+                updateBottomNav("shop")
+
         }
     }
     private fun updateBottomNav(selected: String) {
 
-        binding.bottomNav.shoptext.visibility =
-            if (selected == "shop") View.VISIBLE else View.GONE
+        // Hide all texts
+        binding.bottomNav.shoptext.visibility = View.GONE
+        binding.bottomNav.cartText.visibility = View.GONE
+        binding.bottomNav.favouritetext.visibility = View.GONE
+        binding.bottomNav.moretext.visibility = View.GONE
 
-        binding.bottomNav.cartText.visibility =
-            if (selected == "cart") View.VISIBLE else View.GONE
+        // Remove all backgrounds
+        binding.bottomNav.navforshop.setBackgroundResource(android.R.color.transparent)
+        binding.bottomNav.navforcart.setBackgroundResource(android.R.color.transparent)
+        binding.bottomNav.navforfavourite.setBackgroundResource(android.R.color.transparent)
+        binding.bottomNav.navformore.setBackgroundResource(android.R.color.transparent)
 
-        binding.bottomNav.favouritetext.visibility =
-            if (selected == "favorite") View.VISIBLE else View.GONE
+        when (selected) {
 
-        binding.bottomNav.moretext.visibility =
-            if (selected == "more") View.VISIBLE else View.GONE
+            "shop" -> {
+                binding.bottomNav.shoptext.visibility = View.VISIBLE
+                binding.bottomNav.navforshop.setBackgroundResource(R.drawable.bg_bottomnav)
+            }
+
+            "cart" -> {
+                binding.bottomNav.cartText.visibility = View.VISIBLE
+                binding.bottomNav.navforcart.setBackgroundResource(R.drawable.bg_bottomnav)
+            }
+
+            "favorite" -> {
+                binding.bottomNav.favouritetext.visibility = View.VISIBLE
+                binding.bottomNav.navforfavourite.setBackgroundResource(R.drawable.bg_bottomnav)
+            }
+
+            "more" -> {
+                binding.bottomNav.moretext.visibility = View.VISIBLE
+                binding.bottomNav.navformore.setBackgroundResource(R.drawable.bg_bottomnav)
+
+            }
+
+        }
+
+
     }
         private fun loadFragment(fragment: Fragment){
 
             supportFragmentManager.beginTransaction()
                 .replace(binding.mainFrame.id, fragment)
                 .commit()
+
 
         }
 

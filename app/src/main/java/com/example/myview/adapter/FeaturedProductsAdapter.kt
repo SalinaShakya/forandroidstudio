@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.myview.ProductResponse
+import com.example.myview.data.model.ProductResponse
 import com.example.myview.databinding.FeaturedProductsBinding
 
 class FeaturedProductsAdapter(

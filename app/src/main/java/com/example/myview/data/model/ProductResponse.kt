@@ -1,4 +1,4 @@
-package com.example.myview
+package com.example.myview.data.model
 
 // Matches the exact JSON structure returned from https://fakestoreapi.com
 data class ProductResponse(

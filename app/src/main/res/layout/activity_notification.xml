@@ -24,7 +24,7 @@
         android:background="@android:color/white"
         app:title="Notifications"
         app:titleCentered="true"
-        app:navigationIcon="@drawable/arrow"
+        app:navigationIcon="@drawable/back_arrow"
 
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

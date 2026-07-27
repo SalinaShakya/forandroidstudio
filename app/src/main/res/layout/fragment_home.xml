@@ -312,18 +312,29 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:listitem="@layout/featured_products"/>
 
-        <ImageView
-            android:id="@+id/greenbanner"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/greenbannerr"
             android:layout_width="0dp"
-            android:layout_height="130dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="50dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hotdealscarousel"
-            app:srcCompat="@drawable/greenbanner" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hotdealscarousel">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+                android:src="@drawable/greenbanner"
+                />
+
+        </androidx.cardview.widget.CardView>
         <!-- 1. The Label Header for your tags -->
         <TextView
             android:id="@+id/tv_most_popular_label"
@@ -338,7 +349,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/greenbanner" />
+            app:layout_constraintTop_toBottomOf="@+id/greenbannerr" />
 
         <!-- 2. The wrapping RecyclerView for the tags -->
         <androidx.recyclerview.widget.RecyclerView
