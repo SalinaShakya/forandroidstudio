@@ -353,16 +353,18 @@
 
         <!-- 2. The wrapping RecyclerView for the tags -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/most_popular_tags_recycler"
-            android:layout_width="0dp"
+            android:id="@+id/mostPopularTagsRecycler"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="6dp"
+            tools:listCount="1"
+            app:spanCount="3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_most_popular_label"
-            tools:listitem="@android:layout/activity_list_item" />
+            tools:listitem="@layout/popularlay" />
         <TextView
             android:id="@+id/popularbrand"
             android:layout_width="0dp"
@@ -376,7 +378,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/most_popular_tags_recycler"/>
+            app:layout_constraintTop_toBottomOf="@+id/mostPopularTagsRecycler"/>
         <FrameLayout
             android:id="@+id/fl_arrow_buttonnnn"
             android:layout_width="wrap_content"
@@ -411,7 +413,7 @@
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
             tools:itemCount="4"
-
+            android:background="@android:color/transparent"
             app:layout_constraintTop_toBottomOf="@id/popularbrand"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

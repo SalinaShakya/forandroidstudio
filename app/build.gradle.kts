@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.services)
+
 //    alias(libs.plugins.ksp)
 }
 
@@ -64,6 +66,12 @@ dependencies {
     implementation(libs.glide)
 //    ksp(libs.compiler)
     implementation("com.google.android.flexbox:flexbox:3.0.0")
+
+    implementation(platform(libs.firebase.bom))
+
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.storage)
 
 
 }

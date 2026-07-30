@@ -8,7 +8,9 @@ data class ProductResponse(
     val description: String,
     val category: String,
     val image: String, // String URL pointing directly to the product photo
-    val rating: Rating
+    val rating: Rating,
+    var quantity: Int = 0
+
 )
 
 data class Rating(

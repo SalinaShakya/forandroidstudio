@@ -28,6 +28,8 @@ class PopularAdapter(private val categoryList: List<Popular>) :
 
         // Binds the name string from the API to your TextView
         holder.txtTagName.text = category.name
+
+        holder.itemView.setPadding(10,0,0,0)
     }
 
     override fun getItemCount(): Int = categoryList.size

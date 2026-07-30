@@ -27,6 +27,7 @@ import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import kotlinx.coroutines.launch
 import android.content.Intent
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myview.NotificationActivity
 class FragmentHome : Fragment() {
 
@@ -147,7 +148,6 @@ class FragmentHome : Fragment() {
 
                 val flexboxLayoutManager =
                     FlexboxLayoutManager(requireContext()).apply {
-
                         flexDirection = FlexDirection.ROW
                         flexWrap = FlexWrap.WRAP
                         justifyContent = JustifyContent.FLEX_START
