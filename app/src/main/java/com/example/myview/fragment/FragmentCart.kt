@@ -16,4 +16,5 @@ class FragmentCart : Fragment() {
 
         return inflater.inflate(R.layout.fragment_cart, container, false)
     }
+//    CartManager.cartItems
 }

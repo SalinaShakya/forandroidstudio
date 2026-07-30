@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.myview.databinding.ActivityMainBinding
 import com.example.myview.fragment.FragmentHome
 import androidx.fragment.app.Fragment
@@ -18,10 +20,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        enableEdgeToEdge()
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        enableEdgeToEdge()
+        ViewCompat.setOnApplyWindowInsetsListener(binding.mainFrame)
+        { v, insets -> val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets }
+
         binding.bottomNav.navforshop.setOnClickListener {
             loadFragment(FragmentHome())
             updateBottomNav("shop")
@@ -44,11 +50,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.mainFrame, FragmentHome())
-                .commit()
+
+            if (intent.getStringExtra("open_fragment") == "cart") {
+
+                loadFragment(FragmentCart())
+                updateBottomNav("cart")
+
+            } else {
+
+                loadFragment(FragmentHome())
                 updateBottomNav("shop")
 
+            }
         }
     }
     private fun updateBottomNav(selected: String) {
