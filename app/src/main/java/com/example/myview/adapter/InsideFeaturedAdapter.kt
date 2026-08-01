@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myview.databinding.FeaturedInsideBinding
 class InsideFeaturedAdapter (
-    private val images: List<Int>
+    private val images: List<Any>
 ) : RecyclerView.Adapter<InsideFeaturedAdapter.ImageViewHolder>() {
 
     inner class ImageViewHolder(val binding: FeaturedInsideBinding)

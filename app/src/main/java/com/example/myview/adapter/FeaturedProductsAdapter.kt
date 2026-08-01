@@ -47,9 +47,8 @@ class FeaturedProductsAdapter(
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, FeaturedActivity::class.java)
-
+            intent.putExtra("product_id", product.id) 
             holder.itemView.context.startActivity(intent)
-
         }
         //expand
         holder.binding.btnAdd.setOnClickListener {

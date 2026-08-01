@@ -54,6 +54,7 @@ class PopularBrandAdapter(
         }
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, FeaturedActivity::class.java)
+            intent.putExtra("product_id", product.id)
             holder.itemView.context.startActivity(intent)
 
         }
