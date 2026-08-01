@@ -1,7 +1,10 @@
 package com.example.myview.data
+
 import com.example.myview.data.model.CartItem
 import com.example.myview.data.model.ProductResponse
+
 object CartManager {
+
     val cartItems = mutableListOf<CartItem>()
 
     fun addToCart(product: ProductResponse) {
@@ -23,16 +26,18 @@ object CartManager {
                     quantity = 1
                 )
             )
-
         }
-
-    }
-    fun removeFromCart(productId: Int) {
-        cartItems.removeAll { it.id == productId }
     }
 
-    fun updateQuantity(productId: Int, quantity: Int) {
-        val item = cartItems.find { it.id == productId }
-        item?.quantity = quantity
+    fun updateQuantity(id: Int, quantity: Int) {
+
+        cartItems.find { it.id == id }?.quantity = quantity
+
+    }
+
+    fun removeFromCart(id: Int) {
+
+        cartItems.removeAll { it.id == id }
+
     }
 }

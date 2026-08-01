@@ -9,6 +9,12 @@ import com.example.myview.databinding.ActivityFeaturedBinding
 import android.content.Intent
 import com.example.myview.adapter.InsideFeaturedAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.example.myview.data.api.RetrofitClient
+import android.util.Log
+import android.widget.Toast
+
 class FeaturedActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFeaturedBinding
@@ -25,18 +31,12 @@ class FeaturedActivity : AppCompatActivity() {
         { v, insets -> val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets }
-        val images = listOf(
-            R.drawable.featuredshirt,
-            R.drawable.wave,
-            R.drawable.esewa
-        )
 
-        binding.viewPagerImages.adapter = InsideFeaturedAdapter(images)
+        val productId = intent.getIntExtra("product_id", -1)
+        if (productId != -1) {
+            fetchProductDetails(productId)
+        }
 
-        TabLayoutMediator(
-            binding.tabIndicator,
-            binding.viewPagerImages
-        ) { _, _ -> }.attach()
         binding.imgBack.setOnClickListener {
             finish()
         }
@@ -44,6 +44,32 @@ class FeaturedActivity : AppCompatActivity() {
         binding.imgCart.setOnClickListener {
             val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun fetchProductDetails(productId: Int) {
+        lifecycleScope.launch {
+            try {
+                val product = RetrofitClient.apiService.getProductDetails(productId)
+                
+                binding.txtName.text = product.title
+                binding.txtPrice.text = "Rs. ${product.price}"
+                
+                // For the ViewPager, we wrap the single image in a list
+                val images = listOf(product.image)
+                binding.viewPagerImages.adapter = InsideFeaturedAdapter(images)
+                
+                TabLayoutMediator(
+                    binding.tabIndicator,
+                    binding.viewPagerImages
+                ) { _, _ -> }.attach()
+
+                binding.txtDescrip.text = product.description
+
+            } catch (e: Exception) {
+                Log.e("FeaturedActivity", "Error fetching product: ${e.message}")
+                Toast.makeText(this@FeaturedActivity, "Error loading product details", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

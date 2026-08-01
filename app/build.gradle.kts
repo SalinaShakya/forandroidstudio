@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
+
 
 //    alias(libs.plugins.ksp)
 }
@@ -72,6 +74,9 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.storage)
+
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
 
 
 }
