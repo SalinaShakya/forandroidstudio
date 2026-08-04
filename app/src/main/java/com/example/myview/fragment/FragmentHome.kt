@@ -27,10 +27,16 @@ import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import kotlinx.coroutines.launch
 import android.content.Intent
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myview.NotificationActivity
-class FragmentHome : Fragment() {
+import com.example.myview.ui.viewmodel.HomeViewModel
+import androidx.fragment.app.viewModels
+import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
+class FragmentHome : Fragment() {
+    private val viewModel: HomeViewModel by viewModels()
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -39,41 +45,69 @@ class FragmentHome : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerViews()
-
-        fetchFeaturedProducts()
-        fetchPopularCategories()
+        setupObservers() // Start listening for data
+//        fetchFeaturedProducts()
+//        fetchPopularCategories()
+        viewModel.fetchHomeData()
         binding.notification.setOnClickListener {
             val intent = Intent(requireContext(), NotificationActivity::class.java)
             startActivity(intent)
         }
     }
+    private fun setupObservers() {
+        // 3. Handle Featured, Popular Brands, and Recommended products
+        viewModel.featuredProducts.observe(viewLifecycleOwner) { list ->
+            binding.featuredRecyclerView.adapter = FeaturedProductsAdapter(list)
 
+            // Take a slice for Popular Brands
+            binding.popularrecycler.adapter = PopularBrandAdapter(list.drop(4).take(4))
+
+            // Take a slice for Recommended
+            binding.recommendedrecycler.adapter = FeaturedProductsAdapter(list.drop(8).take(8))
+        }
+        viewModel.hotDeals.observe(viewLifecycleOwner) { deals ->
+            binding.hotdealscarousel.adapter = FeaturedProductsAdapter(deals)
+        }
+
+        // 5. Handle Categories
+        viewModel.popularCategories.observe(viewLifecycleOwner) { categories ->
+            val flexboxLayoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                flexWrap = FlexWrap.WRAP
+                justifyContent = JustifyContent.FLEX_START
+            }
+            binding.mostPopularTagsRecycler.layoutManager = flexboxLayoutManager
+            binding.mostPopularTagsRecycler.adapter = PopularAdapter(categories.take(7))
+        }
+
+        // 6. Handle the Loading Spinner
+        viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+            lifecycleScope.launch {
+                delay(3000L.milliseconds)
+                binding.loadingLayout.visibility = if (loading) View.VISIBLE else View.GONE
+            }
+        }
+    }
     private fun setupRecyclerViews() {
 
-        binding.mostPopularTagsRecycler.setHasFixedSize(true)
-
-        binding.mostPopularTagsRecycler.layoutManager =
-            androidx.recyclerview.widget.StaggeredGridLayoutManager(
-                2,
-                androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
-            )
+//        binding.mostPopularTagsRecycler.setHasFixedSize(true)
+//        binding.mostPopularTagsRecycler.layoutManager =
+//            androidx.recyclerview.widget.StaggeredGridLayoutManager(
+//                2,
+//                androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
+//            )
 
         binding.carouselRecyclerView.setHasFixedSize(true)
         binding.carouselRecyclerView.layoutManager = CarouselLayoutManager()
         CarouselSnapHelper().attachToRecyclerView(binding.carouselRecyclerView)
 
-        binding.categoriesRecyclerView.setHasFixedSize(true)
-        binding.categoriesRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
 
         val imageList = mutableListOf(
             R.drawable.yellowbanner,
@@ -82,6 +116,10 @@ class FragmentHome : Fragment() {
 
         binding.carouselRecyclerView.adapter = CarouselAdapter(imageList)
 
+
+        binding.categoriesRecyclerView.setHasFixedSize(true)
+        binding.categoriesRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         val categoryData = listOf(
             Category("Mobile", R.drawable.ic_shop_mobile),
             Category("Electronic Device", R.drawable.ic_shop_computer),
@@ -92,84 +130,84 @@ class FragmentHome : Fragment() {
         binding.categoriesRecyclerView.adapter = CategoryAdapter(categoryData)
     }
 
-    private fun fetchFeaturedProducts() {
+//    private fun fetchFeaturedProducts() {
+//
+//        viewLifecycleOwner.lifecycleScope.launch {
+//
+//            try {
+//
+//                val featuredList =
+//                    RetrofitClient.apiService.getFeaturedProducts()
+//
+//                val hotDealsList =
+//                    RetrofitClient.apiService.getHotDeals()
+//
+//                binding.featuredRecyclerView.adapter =
+//                    FeaturedProductsAdapter(featuredList)
+//
+//                binding.hotdealscarousel.adapter =
+//                    FeaturedProductsAdapter(hotDealsList)
+//
+//                val popularBrandProducts =
+//                    featuredList.drop(4).take(4)
+//
+//                binding.popularrecycler.adapter =
+//                    PopularBrandAdapter(popularBrandProducts)
+//
+//                val recommendedProducts =
+//                    featuredList.drop(8).take(8)
+//
+//                binding.recommendedrecycler.adapter =
+//                    FeaturedProductsAdapter(recommendedProducts)
+//
+//            } catch (e: Exception) {
+//
+//                Log.e("FragmentHome", e.message ?: "Unknown Error")
+//
+//                Toast.makeText(
+//                    requireContext(),
+//                    "Could not fetch products",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        }
+//    }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-
-            try {
-
-                val featuredList =
-                    RetrofitClient.apiService.getFeaturedProducts()
-
-                val hotDealsList =
-                    RetrofitClient.apiService.getHotDeals()
-
-                binding.featuredRecyclerView.adapter =
-                    FeaturedProductsAdapter(featuredList)
-
-                binding.hotdealscarousel.adapter =
-                    FeaturedProductsAdapter(hotDealsList)
-
-                val popularBrandProducts =
-                    featuredList.drop(4).take(4)
-
-                binding.popularrecycler.adapter =
-                    PopularBrandAdapter(popularBrandProducts)
-
-                val recommendedProducts =
-                    featuredList.drop(8).take(8)
-
-                binding.recommendedrecycler.adapter =
-                    FeaturedProductsAdapter(recommendedProducts)
-
-            } catch (e: Exception) {
-
-                Log.e("FragmentHome", e.message ?: "Unknown Error")
-
-                Toast.makeText(
-                    requireContext(),
-                    "Could not fetch products",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
-
-    private fun fetchPopularCategories() {
-
-        viewLifecycleOwner.lifecycleScope.launch {
-
-            try {
-
-                val apiCategories =
-                    RetrofitClient.apiService.getPopularCategories()
-
-                val limitedCategories = apiCategories.take(7)
-
-                val flexboxLayoutManager =
-                    FlexboxLayoutManager(requireContext()).apply {
-                        flexDirection = FlexDirection.ROW
-                        flexWrap = FlexWrap.WRAP
-                        justifyContent = JustifyContent.FLEX_START
-                    }
-
-                binding.mostPopularTagsRecycler.layoutManager =
-                    flexboxLayoutManager
-
-                binding.mostPopularTagsRecycler.setHasFixedSize(false)
-
-                binding.mostPopularTagsRecycler.adapter =
-                    PopularAdapter(limitedCategories)
-
-            } catch (e: Exception) {
-
-                Log.e(
-                    "FragmentHome",
-                    e.message ?: "Unknown Error"
-                )
-            }
-        }
-    }
+//    private fun fetchPopularCategories() {
+//
+//        viewLifecycleOwner.lifecycleScope.launch {
+//
+//            try {
+//
+//                val apiCategories =
+//                    RetrofitClient.apiService.getPopularCategories()
+//
+//                val limitedCategories = apiCategories.take(7)
+//
+//                val flexboxLayoutManager =
+//                    FlexboxLayoutManager(requireContext()).apply {
+//                        flexDirection = FlexDirection.ROW
+//                        flexWrap = FlexWrap.WRAP
+//                        justifyContent = JustifyContent.FLEX_START
+//                    }
+//
+//                binding.mostPopularTagsRecycler.layoutManager =
+//                    flexboxLayoutManager
+//
+//                binding.mostPopularTagsRecycler.setHasFixedSize(false)
+//
+//                binding.mostPopularTagsRecycler.adapter =
+//                    PopularAdapter(limitedCategories)
+//
+//            } catch (e: Exception) {
+//
+//                Log.e(
+//                    "FragmentHome",
+//                    e.message ?: "Unknown Error"
+//                )
+//            }
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

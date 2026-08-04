@@ -78,5 +78,6 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
 
+    implementation("androidx.fragment:fragment-ktx:1.8.5")
 
 }
