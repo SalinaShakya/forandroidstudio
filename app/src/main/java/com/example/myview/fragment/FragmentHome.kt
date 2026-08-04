@@ -32,6 +32,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myview.NotificationActivity
 import com.example.myview.ui.viewmodel.HomeViewModel
 import androidx.fragment.app.viewModels
+import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 class FragmentHome : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
@@ -87,7 +89,10 @@ class FragmentHome : Fragment() {
 
         // 6. Handle the Loading Spinner
         viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
-            binding.loadingLayout.visibility = if (loading) View.VISIBLE else View.GONE
+            lifecycleScope.launch {
+                delay(3000L.milliseconds)
+                binding.loadingLayout.visibility = if (loading) View.VISIBLE else View.GONE
+            }
         }
     }
     private fun setupRecyclerViews() {

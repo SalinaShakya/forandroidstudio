@@ -17,7 +17,7 @@ class FragmentCart : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
 //        return inflater.inflate(R.layout.fragment_cart, container, false)
         _binding = FragmentCartBinding.inflate(inflater, container, false)
@@ -25,26 +25,26 @@ class FragmentCart : Fragment() {
     }
 //    CartManager.cartItems
 
-override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    // Setting up the adapter with the callback item update trigger
-    val adapter = CartAdapter(CartManager.cartItems) {
+        // Setting up the adapter with the callback item update trigger
+        val adapter = CartAdapter(CartManager.cartItems) {
+            updateTotalPrice()
+        }
+
+        binding.rvCart.adapter = adapter
         updateTotalPrice()
     }
 
-    binding.rvCart.adapter = adapter
-    updateTotalPrice()
-}
+    private fun updateTotalPrice() {
+        // Calculating total using Kotlin's sumOf function
+        val total = CartManager.cartItems.sumOf { it.price * it.quantity }
+        binding.txtTotal.text = getString(R.string.rs, total.toString())
+    }
 
-private fun updateTotalPrice() {
-    // Calculating total using Kotlin's sumOf function
-    val total = CartManager.cartItems.sumOf { it.price * it.quantity }
-    binding.txtTotal.text = "Rs. $total"
-}
-
-override fun onDestroyView() {
-    super.onDestroyView()
-    _binding = null // Prevents memory leaks
-}
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null // Prevents memory leaks
+    }
 }
