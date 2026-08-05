@@ -1,10 +1,267 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CheckoutActivity">
+    android:id="@+id/checkoutAct">
+
+    <ImageView
+        android:id="@+id/firstrect"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:src="@drawable/checkout_rect"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+      />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/rectangle"
+        app:layout_constraintStart_toStartOf="@id/firstrect"
+        app:layout_constraintTop_toTopOf="@id/firstrect"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        />
+
+    <ImageView
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:src="@drawable/location"
+        app:layout_constraintStart_toStartOf="@id/firstrect"
+        app:layout_constraintTop_toTopOf="@id/firstrect"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="25dp"
+        />
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/white"
+        app:title="Checkout"
+        app:titleCentered="true"
+        app:navigationIcon="@drawable/back_arrow"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delivery Address"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/firstrect"
+        app:layout_constraintTop_toTopOf="@+id/firstrect"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="19dp"
+        android:textColor="#808080"
+    />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pulchowk, Lalitpur-20"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/firstrect"
+        app:layout_constraintTop_toTopOf="@+id/firstrect"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="44dp"
+        android:textColor="#182B3C"
+        />
+
+<!--    <androidx.constraintlayout.widget.Guideline android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content" />-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ordersumm"
+        android:text="Order Summary"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/firstrect"
+        app:layout_constraintStart_toStartOf="parent"
+android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        />
+    <ImageView
+        android:id="@+id/orderbox"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:src="@drawable/checkout_rect"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toBottomOf="@id/ordersumm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        />
+<ImageView
+    android:layout_width="200dp"
+    android:layout_height="50dp"
+    android:id="@+id/promo"
+    app:layout_constraintTop_toBottomOf="@id/orderbox"
+    app:layout_constraintStart_toStartOf="parent"
+    android:src="@drawable/rect_clear"
+    android:layout_marginTop="16dp"
+    android:layout_marginStart="16dp"
+    />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HAVE A PROMOCODE?"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/promo"
+        app:layout_constraintTop_toTopOf="@+id/promo"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="16dp"
+        android:textColor="#2ABB00"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Your Payment Option"
+        android:id="@+id/choose"
+        app:layout_constraintTop_toBottomOf="@+id/promo"
+        app:layout_constraintStart_toStartOf="@+id/promo"
+        android:layout_marginTop="16dp"
+        />
+    <ImageView
+        android:id="@+id/payment"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:src="@drawable/checkout_rect"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toBottomOf="@id/choose"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="@+id/payment"
+        app:layout_constraintStart_toStartOf="@+id/payment">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/payicon"
+        android:src="@drawable/ic_payment"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="16dp"
+        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cash on Delivery"
+            app:layout_constraintTop_toTopOf="@+id/payment"
+            app:layout_constraintStart_toStartOf="@+id/payicon"
+            android:layout_marginTop="33dp"
+            android:layout_marginStart="40dp"
+            />
+
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/ic_front"
+    android:layout_marginTop="35dp"
+    android:layout_marginStart="150dp"
+/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/secondpayment"
+        app:layout_constraintTop_toTopOf="@+id/payment"
+        app:layout_constraintStart_toStartOf="@+id/payment">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/secondpay"
+        app:layout_constraintTop_toTopOf="@+id/payicon"
+        app:layout_constraintStart_toStartOf="@+id/payicon"
+        android:src="@drawable/ic_brand"
+        android:layout_marginTop="95dp"
+        android:layout_marginStart="16dp"
+        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pay with eSewa"
+
+            android:layout_marginTop="99dp"
+            android:layout_marginStart="40dp"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_front"
+            android:layout_marginTop="105dp"
+
+            android:layout_marginStart="160dp"
+            />
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/payment"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/secondpayment"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="@id/payment">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+
+        android:src="@drawable/ic_verified"
+        android:layout_marginStart="40dp"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="12dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/safeandsecure"
+        app:layout_constraintTop_toBottomOf="@+id/secondpayment"
+        app:layout_constraintStart_toStartOf="@+id/secondpayment"
+        android:text="SAFE AND SECURE PAYMENTS."
+        android:gravity="center_horizontal"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/safeandsecure"
+        app:layout_constraintStart_toStartOf="@+id/safeandsecure"
+        android:text="100% AUTHENTIC PRODUCTS."
+        android:gravity="center_horizontal"
+        />
+    </LinearLayout>
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
