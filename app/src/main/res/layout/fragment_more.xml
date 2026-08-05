@@ -40,12 +40,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
+            <!-- PROFILE & ACCOUNT SECTION -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginBottom="16dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="3dp">
 
@@ -55,7 +57,6 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <!-- Paste all your existing profile/menu content here -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -105,8 +106,6 @@
 
                     </LinearLayout>
 
-                    <!-- ================= MY PROFILE ================= -->
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -116,6 +115,7 @@
                         android:textColor="#777777"
                         android:textStyle="bold" />
 
+                    <!-- My Products -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -125,21 +125,24 @@
                         <ImageView
                             android:layout_width="22dp"
                             android:layout_height="22dp"
-                            android:src="@drawable/ic_purchase_history"/>
-                        <!--                    app:tint="#4CAF50" -->
-
+                            android:src="@drawable/ic_purchase_history"
+                            app:tint="#4CAF50"/>
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
                             android:layout_weight="1"
-                            android:text="My Products" />
+                            android:text="My Products"
+                            android:textColor="#222222" />
 
-
-
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+/>
                     </LinearLayout>
 
+                    <!-- Shipping Address -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -157,19 +160,237 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
                             android:layout_weight="1"
-                            android:text="Shipping Address" />
+                            android:text="Shipping Address"
+                            android:textColor="#222222" />
 
-
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            />
                     </LinearLayout>
 
-                    <View
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- MY ORDERS SECTION -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="My Order"
+                        android:textColor="#777777"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <!-- My Order -->
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#EEEEEE"
-                        android:layout_marginVertical="10dp"/>
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_purchase_history"
+                            app:tint="#4CAF50"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_weight="1"
+                            android:text="My Order"
+                            android:textColor="#222222"
+                            android:textSize="15sp"/>
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            />
+                    </LinearLayout>
+
+                    <!-- My Return -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_return_order"
+                            app:tint="#4CAF50"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_weight="1"
+                            android:text="My Return"
+                            android:textColor="#222222"
+                            android:textSize="15sp"/>
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            app:tint="#AAAAAA"/>
+                    </LinearLayout>
+
+                    <!-- My Cancellation -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_cancel_order"
+                            app:tint="#4CAF50"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_weight="1"
+                            android:text="My Cancellation"
+                            android:textColor="#222222"
+                            android:textSize="15sp"/>
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            app:tint="#AAAAAA"/>
+                    </LinearLayout>
 
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
+            <!-- REWARDS SECTION -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Reward Promotions"
+                        android:textColor="#777777"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <!-- Rewards Points -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_reward_points_grn"
+                            app:tint="#4CAF50"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_weight="1"
+                            android:text="Rewards Points"
+                            android:textColor="#222222"
+                            android:textSize="15sp"/>
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            app:tint="#AAAAAA"/>
+                    </LinearLayout>
+
+                    <!-- Apply Promocode -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="21dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_promocode"
+                            app:tint="#4CAF50" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_weight="1"
+                            android:text="Apply Promocode"
+                            android:textColor="#222222"
+                            android:textSize="15sp"/>
+
+<!--                        <ImageView-->
+<!--                            android:layout_width="16dp"-->
+<!--                            android:layout_height="16dp"-->
+<!--&lt;!&ndash;                            android:src="@drawable/ic_arrow_right"&ndash;&gt;-->
+<!--                            app:tint="#AAAAAA"/>-->
+                    </LinearLayout>
+
+                    <!-- Daily Buy Bonus -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_payment"
+                            app:tint="#4CAF50"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_weight="1"
+                            android:text="Daily Buy Bonus"
+                            android:textColor="#222222"
+                            android:textSize="15sp"/>
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                        />
+                    </LinearLayout>
+
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -185,7 +406,6 @@
                 android:textSize="11sp" />
 
         </LinearLayout>
-
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
