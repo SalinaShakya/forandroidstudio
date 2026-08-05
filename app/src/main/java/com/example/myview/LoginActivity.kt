@@ -19,7 +19,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.loginAct)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
                 val password = binding.etPassword.text.toString().trim()
 
                 // Validation
-                if (email.isEmpty()) {
+                if (email.isEmpty()) { // displays an error below the edit text
                     binding.etEmail.error = "Enter your email"
                     return@setOnClickListener
                 }
@@ -56,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
                             startActivity(Intent(this, MainActivity::class.java))
                             finish()
 
-                        } else {
+                        } else { // the format to follow
 
                             Toast.makeText(
                                 this,
