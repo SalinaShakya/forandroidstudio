@@ -25,9 +25,17 @@ class HomeViewModel: ViewModel (){
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _popularBrands = MutableLiveData<List<ProductResponse>>()
+    val popularBrands: LiveData<List<ProductResponse>> = _popularBrands
+
+    private val _recommendedItems = MutableLiveData<List<ProductResponse>>()
+    val recommendedItems: LiveData<List<ProductResponse>> = _recommendedItems
+
+
     // 2. Added an error LiveData (Professional practice)
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> = _errorMessage
+
 
     fun fetchHomeData() {
         _isLoading.value = true
@@ -43,6 +51,14 @@ class HomeViewModel: ViewModel (){
                 _popularCategories.value = RetrofitClient.apiService.getPopularCategories()
 
                 _isLoading.value = false
+
+//                val products = RetrofitClient.apiService.getFeaturedProducts()
+
+                // Distribute the data to specific lists
+                _featuredProducts.value = products.take(4)          // First 4 items
+                _popularBrands.value = products.drop(4).take(4)      // Next 4 items
+                _recommendedItems.value = products.drop(8)           // The rest
+
             } catch (e: Exception) {
                 _isLoading.value = false
                 _errorMessage.value = e.message ?: "An unknown error occurred"

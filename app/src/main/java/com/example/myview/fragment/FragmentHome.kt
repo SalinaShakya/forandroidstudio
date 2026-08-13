@@ -63,33 +63,47 @@ class FragmentHome : Fragment() {
     }
     private fun setupObservers() {
         // 3. Handle Featured, Popular Brands, and Recommended products
+        // FOR THE VIEWMODEL TAKE AWAY THE TAKE AND DROP THING AND REPLACE THEM WITH OBSERVERS
+//        viewModel.featuredProducts.observe(viewLifecycleOwner) { list ->
+//            binding.featuredRecyclerView.adapter = FeaturedProductsAdapter(list)
+//
+//            // Take a slice for Popular Brands
+//            binding.popularrecycler.adapter = PopularBrandAdapter(list.drop(4).take(4))
+//
+//            // Take a slice for Recommended
+//            binding.recommendedrecycler.adapter = FeaturedProductsAdapter(list.drop(8).take(8))
+//        }
+//        viewModel.hotDeals.observe(viewLifecycleOwner) { deals ->
+//            binding.hotdealscarousel.adapter = FeaturedProductsAdapter(deals)
+//        }
+//
+//        // 5. Handle Categories
+//        viewModel.popularCategories.observe(viewLifecycleOwner) { categories ->
+//            val flexboxLayoutManager = FlexboxLayoutManager(requireContext()).apply {
+//                flexDirection = FlexDirection.ROW
+//                flexWrap = FlexWrap.WRAP
+//                justifyContent = JustifyContent.FLEX_START
+//            }
+//            binding.mostPopularTagsRecycler.layoutManager = flexboxLayoutManager
+//            binding.mostPopularTagsRecycler.adapter = PopularAdapter(categories.take(7))
+//        }
+
         viewModel.featuredProducts.observe(viewLifecycleOwner) { list ->
             binding.featuredRecyclerView.adapter = FeaturedProductsAdapter(list)
-
-            // Take a slice for Popular Brands
-            binding.popularrecycler.adapter = PopularBrandAdapter(list.drop(4).take(4))
-
-            // Take a slice for Recommended
-            binding.recommendedrecycler.adapter = FeaturedProductsAdapter(list.drop(8).take(8))
-        }
-        viewModel.hotDeals.observe(viewLifecycleOwner) { deals ->
-            binding.hotdealscarousel.adapter = FeaturedProductsAdapter(deals)
         }
 
-        // 5. Handle Categories
-        viewModel.popularCategories.observe(viewLifecycleOwner) { categories ->
-            val flexboxLayoutManager = FlexboxLayoutManager(requireContext()).apply {
-                flexDirection = FlexDirection.ROW
-                flexWrap = FlexWrap.WRAP
-                justifyContent = JustifyContent.FLEX_START
-            }
-            binding.mostPopularTagsRecycler.layoutManager = flexboxLayoutManager
-            binding.mostPopularTagsRecycler.adapter = PopularAdapter(categories.take(7))
+        viewModel.popularBrands.observe(viewLifecycleOwner) { list ->
+            binding.popularrecycler.adapter = PopularBrandAdapter(list)
         }
+
+        viewModel.recommendedItems.observe(viewLifecycleOwner) { list ->
+            binding.recommendedrecycler.adapter = FeaturedProductsAdapter(list)
+        }
+
 
         // 6. Handle the Loading Spinner
         viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 delay(3000L.milliseconds)
                 binding.loadingLayout.visibility = if (loading) View.VISIBLE else View.GONE
             }

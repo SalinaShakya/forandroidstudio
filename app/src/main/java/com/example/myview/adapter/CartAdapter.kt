@@ -8,7 +8,6 @@ import com.example.myview.data.CartManager
 import com.example.myview.data.model.CartItem
 import com.example.myview.databinding.FragmentCartBinding
 import com.example.myview.databinding.ItemSelectorBinding
-
 class CartAdapter(
     private val cartItems: MutableList<CartItem>,
     private val onCartUpdate: (() -> Unit)? = null // Callback to update totals in the Fragment
@@ -64,7 +63,7 @@ class CartAdapter(
             } else {
                 // Remove item completely if quantity reaches 0
                 CartManager.removeFromCart(item.id)
-                cartItems.removeAt(currentPos)
+//                cartItems.removeAt(currentPos)
                 notifyItemRemoved(currentPos)
                 notifyItemRangeChanged(currentPos, cartItems.size)
             }
@@ -74,5 +73,7 @@ class CartAdapter(
         }
     }
 
-    override fun getItemCount(): Int = cartItems.size
+    override fun getItemCount(): Int {
+        return cartItems.size
+    }
 }

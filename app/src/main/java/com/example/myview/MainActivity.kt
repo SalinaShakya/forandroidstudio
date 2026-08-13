@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.example.myview.fragment.FragmentCart
 import com.example.myview.fragment.FragmentFavourite
 import com.example.myview.fragment.FragmentMore
+import com.example.myview.data.CartManager
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +24,9 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        CartManager.init(this)
+
         enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainFrame)
         { v, insets -> val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

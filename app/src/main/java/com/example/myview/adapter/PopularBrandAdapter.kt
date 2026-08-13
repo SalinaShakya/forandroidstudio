@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.myview.FeaturedActivity
 import com.example.myview.MainActivity
 import com.example.myview.R
+import com.example.myview.data.CartManager
 import com.example.myview.data.model.ProductResponse
 import com.example.myview.databinding.PopularbrandBinding
 import com.google.android.material.snackbar.Snackbar
@@ -60,7 +61,7 @@ class PopularBrandAdapter(
         }
         //expand
         holder.binding.btnAdd.setOnClickListener {
-
+            CartManager.addToCart(product)
             product.quantity = 1
             notifyItemChanged(holder.bindingAdapterPosition)
 
@@ -88,13 +89,16 @@ class PopularBrandAdapter(
             if (product.quantity > 1) {
                 product.quantity--
                 holder.binding.txtQuantity.text = product.quantity.toString()
+                CartManager.updateQuantity(product.id, product.quantity)
             } else {
                 product.quantity = 0
                 notifyItemChanged(holder.bindingAdapterPosition)
+                CartManager.removeFromCart(product.id)
             }
         }
         //increase
         holder.binding.btnPlus.setOnClickListener {
+            CartManager.updateQuantity(product.id, product.quantity)
             product.quantity++
             holder.binding.txtQuantity.text = product.quantity.toString()
         }
