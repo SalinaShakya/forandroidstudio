@@ -1,5 +1,4 @@
 package com.example.myview
-
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -68,6 +67,11 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+//        CartManager.init(this) {
+//            // This code runs ONLY when Room is finished loading
+//            // We tell the Home screen: "Hey, data is ready! Refresh now!"
+//            // (If you have a way to access the Home fragment, you can call refresh there)
+//        }
     }
     private fun updateBottomNav(selected: String) {
 
@@ -110,14 +114,16 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
         private fun loadFragment(fragment: Fragment){
 
             supportFragmentManager.beginTransaction()
+                //the replace is making it refresh everytime i switch to a fragment or back (destroys and recreates the fragment)
+                //now to solve that what ill do is ill add a guard clause (IN THE VIEWMODEL) that says if i already have the data then dont go to the internet (DONT REFRESH)
                 .replace(binding.mainFrame.id, fragment)
                 .commit()
 
 
         }
-
 
 }
