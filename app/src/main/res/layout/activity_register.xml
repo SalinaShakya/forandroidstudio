@@ -1,91 +1,249 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:fillViewport="true"
+    android:background="#F5F5F5">
 
-    <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="60dp" />
+        android:padding="24dp">
+        <!-- LOGO -->
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:src="@drawable/no_bg"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+        <!-- WELCOME -->
+        <TextView
+            android:id="@+id/Welcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create New Account"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#222222"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/imgLogo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-<!--    <EditText-->
-<!--        android:id="@+id/etName"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="Full Name"-->
-<!--        android:inputType="textPersonName"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/txtTitle"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        android:layout_marginTop="30dp" />-->
+        <!-- SUBTITLE -->
+        <TextView
+            android:id="@+id/Friendly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your friendly local and global market companion"
+            android:textSize="12sp"
+            android:textColor="#8E90A6"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/Welcome"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintTop_toBottomOf="@id/txtTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        <!-- FORM CONTAINER WITH GRAYVECTOR FRAME -->
+        <LinearLayout
+            android:id="@+id/formContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/grayvector"
+            android:orientation="vertical"
+            android:padding="20dp"
+            app:layout_constraintTop_toBottomOf="@id/Friendly"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@id/etEmail"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+            <!-- FULL NAME LABEL -->
+            <TextView
+                android:id="@+id/txtNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FULL NAME"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#222222" />
 
-    <EditText
-        android:id="@+id/etConfirmPassword"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Confirm Password"
-        android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@id/etPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+            <!-- FULL NAME BOX -->
+            <FrameLayout
+                android:id="@+id/fullNameContainer"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Register"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:backgroundTint="#43C230"
-        app:cornerRadius="24dp"
-        app:layout_constraintTop_toBottomOf="@id/etConfirmPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/login_box"
+                    android:scaleType="fitXY" />
 
-    <TextView
-        android:id="@+id/txtLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Already have an account? Login"
-        android:textColor="#43C230"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/btnRegister"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp" />
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Enter your full name"
+                    android:inputType="textPersonName"
+                    android:background="@android:color/transparent"
+                    android:paddingHorizontal="16dp"
+                    android:textSize="14sp" />
+            </FrameLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- PHONE LABEL -->
+            <TextView
+                android:id="@+id/txtPhoneLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PHONE NUMBER"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#222222"
+                android:layout_marginTop="16dp" />
+
+            <!-- PHONE BOX -->
+            <FrameLayout
+                android:id="@+id/phoneContainer"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/login_box"
+                    android:scaleType="fitXY" />
+
+                <EditText
+                    android:id="@+id/etNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Enter your phone number"
+                    android:inputType="phone"
+                    android:background="@android:color/transparent"
+                    android:paddingHorizontal="16dp"
+                    android:textSize="14sp" />
+            </FrameLayout>
+
+            <!-- EMAIL LABEL -->
+            <TextView
+                android:id="@+id/txtEmailLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EMAIL"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#222222"
+                android:layout_marginTop="16dp" />
+
+            <!-- EMAIL BOX -->
+            <FrameLayout
+                android:id="@+id/emailContainer"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/login_box"
+                    android:scaleType="fitXY" />
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Enter your email"
+                    android:inputType="textEmailAddress"
+                    android:background="@android:color/transparent"
+                    android:paddingHorizontal="16dp"
+                    android:textSize="14sp" />
+            </FrameLayout>
+
+            <!-- PASSWORD LABEL -->
+            <TextView
+                android:id="@+id/txtPasswordLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PASSWORD"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#222222"
+                android:layout_marginTop="16dp" />
+
+            <!-- PASSWORD BOX -->
+            <FrameLayout
+                android:id="@+id/passwordContainer"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/login_box"
+                    android:scaleType="fitXY" />
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:background="@android:color/transparent"
+                    android:paddingHorizontal="16dp"
+                    android:textSize="14sp" />
+            </FrameLayout>
+
+            <!-- TERMS -->
+            <TextView
+                android:id="@+id/txtTerms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="I agree to the eSewa Market Terms and Conditions"
+                android:textColor="#43C230"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal" />
+
+            <!-- REGISTER -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRegister"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Register"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                app:backgroundTint="#43C230"
+                app:cornerRadius="12dp"
+                android:layout_marginTop="20dp" />
+
+        </LinearLayout>
+
+        <!-- LOGIN LINK -->
+        <TextView
+
+            android:id="@+id/txtLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="240dp"
+            android:text="Already have an account? Login"
+            android:textColor="#43C230"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/formContainer"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

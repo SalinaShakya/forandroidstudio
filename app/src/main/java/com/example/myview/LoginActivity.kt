@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.myview.data.CartManager
 import com.example.myview.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -26,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
         }
             auth = FirebaseAuth.getInstance()
 
-            binding.btnLogin.setOnClickListener {
+            binding.txtLoginn.setOnClickListener {
 
                 val email = binding.etEmail.text.toString().trim()
                 val password = binding.etPassword.text.toString().trim()
@@ -53,9 +54,13 @@ class LoginActivity : AppCompatActivity() {
                                 Toast.LENGTH_SHORT
                             ).show()
 
-                            startActivity(Intent(this, MainActivity::class.java))
-                            finish()
+                            CartManager.syncFromCloud {
+                                startActivity(Intent(this, MainActivity::class.java))
+                                finish()
 
+                                startActivity(Intent(this, MainActivity::class.java))
+                                finish()
+                            }
                         } else { // the format to follow
 
                             Toast.makeText(
@@ -66,9 +71,11 @@ class LoginActivity : AppCompatActivity() {
                         }
                     }
             }
+        binding.SignUp.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
-            binding.txtRegister.setOnClickListener {
-                startActivity(Intent(this, RegisterActivity::class.java))
-            }
         }
     }

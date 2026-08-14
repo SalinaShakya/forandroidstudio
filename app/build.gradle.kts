@@ -2,9 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.ksp)
 
 
-//    alias(libs.plugins.ksp)
+
 }
 
 android {
@@ -79,5 +80,9 @@ dependencies {
     implementation(libs.firebase.analytics)
 
     implementation("androidx.fragment:fragment-ktx:1.8.5")
+
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 
 }
