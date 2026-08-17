@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.Fragment
 import com.example.myview.LoginActivity
 import com.example.myview.R
@@ -13,6 +16,9 @@ import com.example.myview.adapter.CartAdapter
 import com.example.myview.data.CartManager
 import com.example.myview.databinding.FragmentCartBinding
 import com.google.firebase.auth.FirebaseAuth
+
+import androidx.compose.material3.Text
+
 
 class FragmentCart : Fragment() {
 
@@ -44,6 +50,9 @@ class FragmentCart : Fragment() {
             binding.layoutCartGuest.visibility = View.VISIBLE
             setupGuestView()
         }
+        binding.myComposeView.setContent {
+        // Call your Composable function here! TestPreview()
+        TestPreview()}
     }
 
     private fun setupCartList() {
@@ -63,7 +72,6 @@ class FragmentCart : Fragment() {
             adapter.notifyDataSetChanged()
             updateTotalPrice()
         }
-
         updateTotalPrice()
     }
 
@@ -91,5 +99,12 @@ class FragmentCart : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+
+    @Preview(showBackground = true)
+    @Composable
+    fun TestPreview() {
+        Text(text = "Compose is Working, Sam!")
     }
 }
