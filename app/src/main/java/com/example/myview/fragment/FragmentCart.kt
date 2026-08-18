@@ -50,6 +50,9 @@ class FragmentCart : Fragment() {
             binding.layoutCartGuest.visibility = View.VISIBLE
             setupGuestView()
         }
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
         binding.myComposeView.setContent {
         // Call your Composable function here! TestPreview()
         TestPreview()}

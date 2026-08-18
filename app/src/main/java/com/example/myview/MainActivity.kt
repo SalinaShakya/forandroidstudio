@@ -11,7 +11,7 @@ import com.example.myview.databinding.ActivityMainBinding
 import com.example.myview.fragment.FragmentHome
 import androidx.fragment.app.Fragment
 import com.example.myview.fragment.FragmentCart
-import com.example.myview.fragment.FragmentFavourite
+//import com.example.myview.fragment.FavoritesScreen
 import com.example.myview.fragment.FragmentMore
 import com.example.myview.data.CartManager
 
@@ -73,6 +73,17 @@ class MainActivity : AppCompatActivity() {
 //            // We tell the Home screen: "Hey, data is ready! Refresh now!"
 //            // (If you have a way to access the Home fragment, you can call refresh there)
 //        }
+
+        supportFragmentManager.addOnBackStackChangedListener {
+            val currentFragment = supportFragmentManager.findFragmentById(binding.mainFrame.id)
+            
+            when (currentFragment) {
+                is FragmentHome -> updateBottomNav("shop")
+                is FragmentCart -> updateBottomNav("cart")
+                is FragmentFavourite -> updateBottomNav("favorite")
+                is FragmentMore -> updateBottomNav("more")
+            }
+        }
     }
     private fun updateBottomNav(selected: String) {
 
@@ -116,15 +127,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-        private fun loadFragment(fragment: Fragment){
-
-            supportFragmentManager.beginTransaction()
-                //the replace is making it refresh everytime i switch to a fragment or back (destroys and recreates the fragment)
-                //now to solve that what ill do is ill add a guard clause (IN THE VIEWMODEL) that says if i already have the data then dont go to the internet (DONT REFRESH)
-                .replace(binding.mainFrame.id, fragment)
-                .commit()
-
-
-        }
+    private fun loadFragment(fragment: Fragment) {
+        val tag = fragment.javaClass.simpleName
+        supportFragmentManager.beginTransaction()
+            .replace(binding.mainFrame.id, fragment, tag)
+            .addToBackStack(tag)
+            .commit()
+    }
 
 }
