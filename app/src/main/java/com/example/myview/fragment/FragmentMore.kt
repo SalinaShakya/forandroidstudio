@@ -80,6 +80,9 @@ class FragmentMore : Fragment() {
                 startActivity(Intent(requireContext(), RegisterActivity::class.java))
             }
         }
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     override fun onDestroyView() {
