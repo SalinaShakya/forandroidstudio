@@ -14,6 +14,8 @@ import kotlinx.coroutines.launch
 import com.example.myview.data.api.RetrofitClient
 import android.util.Log
 import android.widget.Toast
+import com.example.myview.data.FavoriteManager
+import com.example.myview.data.local.FavoriteEntity
 
 class FeaturedActivity : AppCompatActivity() {
 
@@ -45,6 +47,7 @@ class FeaturedActivity : AppCompatActivity() {
             val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
         }
+
     }
 
     private fun fetchProductDetails(productId: Int) {
@@ -66,6 +69,17 @@ class FeaturedActivity : AppCompatActivity() {
 
                 binding.txtDescrip.text = product.description
 
+                binding.likeButton.setOnClickListener {
+                    // product is the data you fetched from the API
+                    val favorite = FavoriteEntity(
+                        id = product.id,
+                        title = product.title,
+                        price = product.price,
+                        image = product.image
+                    )
+                    FavoriteManager.addFavorite(favorite)
+//                    Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show()
+                }
             } catch (e: Exception) {
                 Log.e("FeaturedActivity", "Error fetching product: ${e.message}")
                 Toast.makeText(this@FeaturedActivity, "Error loading product details", Toast.LENGTH_SHORT).show()

@@ -8,10 +8,13 @@ import com.example.myview.data.model.ProductResponse
 import com.example.myview.databinding.FeaturedProductsBinding
 import android.content.Intent
 import android.view.View
+import android.widget.Toast
 import com.example.myview.CartActivity
 import com.example.myview.FeaturedActivity
 import com.example.myview.MainActivity
 import com.example.myview.data.CartManager
+import com.example.myview.data.FavoriteManager
+import com.example.myview.data.local.FavoriteEntity
 import com.google.android.material.snackbar.Snackbar
 
 class FeaturedProductsAdapter(
@@ -115,6 +118,16 @@ class FeaturedProductsAdapter(
             holder.binding.quantityCard.visibility = View.VISIBLE
             holder.binding.txtQuantity.text = product.quantity.toString()
 
+        }
+        holder.binding.btnFavourite.setOnClickListener {
+            val favorite = FavoriteEntity(
+                id = product.id,
+                title = product.title,
+                price = product.price,
+                image = product.image
+            )
+            FavoriteManager.addFavorite(favorite)
+            Toast.makeText(holder.itemView.context, "Added to favorites", Toast.LENGTH_SHORT).show()
         }
 
     }
