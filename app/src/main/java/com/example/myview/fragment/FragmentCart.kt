@@ -108,6 +108,6 @@ class FragmentCart : Fragment() {
     @Preview(showBackground = true)
     @Composable
     fun TestPreview() {
-        Text(text = "Compose is Working, Sam!")
+        Text(text = "Compose is Working, Salinanana!")
     }
 }

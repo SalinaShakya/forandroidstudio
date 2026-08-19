@@ -14,6 +14,7 @@ import com.example.myview.fragment.FragmentCart
 //import com.example.myview.fragment.FavoritesScreen
 import com.example.myview.fragment.FragmentMore
 import com.example.myview.data.CartManager
+import com.example.myview.data.FavoriteManager
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         CartManager.init(this)
+        FavoriteManager.init(this)
 
         enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainFrame)

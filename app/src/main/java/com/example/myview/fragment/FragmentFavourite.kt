@@ -9,7 +9,7 @@ import android.view.ViewGroup
 //import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import com.example.myview.data.CartManager
+import com.example.myview.data.FavoriteManager
 import com.example.myview.fragment.FavoritesScreen
 
 
@@ -23,9 +23,8 @@ class FragmentFavourite : Fragment() {
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                val count = CartManager.cartItems.sumOf { it.quantity }
                 FavoritesScreen(
-                    itemCount = count,
+                    items = FavoriteManager.favorites,
                     onBackClick = {
                         // This is valid here because it's inside a Fragment
                         requireActivity().onBackPressedDispatcher.onBackPressed()
