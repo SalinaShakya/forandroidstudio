@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import com.example.myview.data.FavoriteManager
+import com.example.myview.data.FavoriteManager.favorites
 import com.example.myview.fragment.FavoritesScreen
 
 
@@ -24,14 +25,21 @@ class FragmentFavourite : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 FavoritesScreen(
-                    items = FavoriteManager.favorites,
-                    onBackClick = {
-                        // This is valid here because it's inside a Fragment
-                        requireActivity().onBackPressedDispatcher.onBackPressed()
-                        //onbackpressed android looks at that pile of history and pops the last one instead of closing the app
-                        // acts like a pop command? removes the current screen from the top and brings the previous one back
-                    }
+//                    items = FavoriteManager.favorites,
+//                    FavoritesScreen(
+                        items = favorites,
+                        onBackClick = { requireActivity().onBackPressedDispatcher.onBackPressed()},
+                        onCartClick = { (requireActivity() as MainActivity).openCartTab()  },
+
                 )
+
+//                    onBackClick = {
+//                        // This is valid here because it's inside a Fragment
+//                        requireActivity().onBackPressedDispatcher.onBackPressed()
+//                        //onbackpressed android looks at that pile of history and pops the last one instead of closing the app
+//                        // acts like a pop command? removes the current screen from the top and brings the previous one back
+//                    }
+
             }
 
         }

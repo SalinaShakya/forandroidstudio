@@ -31,9 +31,11 @@ class MainActivity : AppCompatActivity() {
 
         enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainFrame)
-        { v, insets -> val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+        { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
-            insets }
+            insets
+        }
 
         binding.bottomNav.navforshop.setOnClickListener {
             loadFragment(FragmentHome())
@@ -47,12 +49,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.bottomNav.navFavorite.setOnClickListener {
-             loadFragment(FragmentFavourite())
+            loadFragment(FragmentFavourite())
             updateBottomNav("favorite")
         }
 
         binding.bottomNav.navDots.setOnClickListener {
-             loadFragment(FragmentMore())
+            loadFragment(FragmentMore())
             updateBottomNav("more")
         }
 
@@ -78,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.addOnBackStackChangedListener {
             val currentFragment = supportFragmentManager.findFragmentById(binding.mainFrame.id)
-            
+
             when (currentFragment) {
                 is FragmentHome -> updateBottomNav("shop")
                 is FragmentCart -> updateBottomNav("cart")
@@ -86,7 +88,9 @@ class MainActivity : AppCompatActivity() {
                 is FragmentMore -> updateBottomNav("more")
             }
         }
+
     }
+
     private fun updateBottomNav(selected: String) {
 
         // Hide all texts
@@ -135,6 +139,12 @@ class MainActivity : AppCompatActivity() {
             .replace(binding.mainFrame.id, fragment, tag)
             .addToBackStack(tag)
             .commit()
-    }
 
+
+
+    }
+    fun openCartTab() {
+        loadFragment(FragmentCart())
+        updateBottomNav("cart")
+    }
 }

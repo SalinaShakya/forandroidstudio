@@ -9,6 +9,9 @@ import com.example.myview.databinding.FeaturedProductsBinding
 import android.content.Intent
 import android.view.View
 import android.widget.Toast
+//import androidx.compose.ui.graphics.Color
+import android.graphics.Color
+import androidx.compose.ui.res.colorResource
 import com.example.myview.CartActivity
 import com.example.myview.FeaturedActivity
 import com.example.myview.MainActivity
@@ -47,6 +50,16 @@ class FeaturedProductsAdapter(
         Glide.with(holder.itemView.context)
             .load(product.image)
             .into(holder.binding.imgProduct)
+
+        val isCurrentlyFavorite = FavoriteManager.favorites.any { it.id == product.id }
+        if (isCurrentlyFavorite) {
+        // Change heart to Green
+        holder.binding.btnFavourite.setColorFilter(Color.parseColor("#43C230")) }
+        else {
+        // Change heart back to the default color (usually Black or Gray)
+        holder.binding.btnFavourite.clearColorFilter()
+        }
+
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, FeaturedActivity::class.java)
@@ -127,6 +140,8 @@ class FeaturedProductsAdapter(
                 image = product.image
             )
             FavoriteManager.addFavorite(favorite)
+            notifyItemChanged(holder.bindingAdapterPosition)
+            holder.binding.btnFavourite.setColorFilter(Color.parseColor("#43C230"))
             Toast.makeText(holder.itemView.context, "Added to favorites", Toast.LENGTH_SHORT).show()
         }
 
