@@ -16,7 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 object CartManager {
 
-    val cartItems = mutableListOf<CartItem>()
+    val cartItems = mutableListOf<CartItem>() //cartitem
     private lateinit var cartDao: com.example.myview.data.local.CartDao
 
 

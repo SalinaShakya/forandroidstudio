@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.myview.databinding.ActivityFeaturedBinding
 import android.content.Intent
+import android.graphics.Color
 import com.example.myview.adapter.InsideFeaturedAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import androidx.lifecycle.lifecycleScope
@@ -79,7 +80,14 @@ class FeaturedActivity : AppCompatActivity() {
                     )
                     FavoriteManager.addFavorite(favorite)
 //                    Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show()
+
                 }
+                val isCurrentlyFavorite = FavoriteManager.favorites.any { it.id == product.id }
+
+                if (isCurrentlyFavorite) {
+                    binding.imgLike.setColorFilter(Color.parseColor("#43C230")) }
+                else {
+                    binding.imgLike.clearColorFilter() }
             } catch (e: Exception) {
                 Log.e("FeaturedActivity", "Error fetching product: ${e.message}")
                 Toast.makeText(this@FeaturedActivity, "Error loading product details", Toast.LENGTH_SHORT).show()
