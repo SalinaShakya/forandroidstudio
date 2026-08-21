@@ -46,12 +46,31 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/navtroll"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/navcart"
-            android:contentDescription="Cart"/>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/navtroll"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/navcart" />
+
+            <!-- THE BADGE -->
+            <TextView
+                android:id="@+id/cartBadge"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="-4dp"
+                android:layout_marginEnd="-4dp"
+                android:background="@drawable/bottom_greenc"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textSize="10sp"
+                android:visibility="gone" /> <!-- Hidden by default -->
+        </FrameLayout>
 
         <TextView
             android:id="@+id/cartText"
@@ -74,12 +93,31 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/navFavorite"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/navheart"
-            android:contentDescription="Favourite"/>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/navfavorite"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/navheart" />
+
+            <!-- THE BADGE -->
+            <TextView
+                android:id="@+id/navBadge"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="-4dp"
+                android:layout_marginEnd="-4dp"
+                android:background="@drawable/bottom_greenc"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textSize="10sp"
+                android:visibility="gone" /> <!-- Hidden by default -->
+        </FrameLayout>
 
         <TextView
             android:id="@+id/favouritetext"
@@ -90,7 +128,8 @@
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="#2DBE17"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            />
     </LinearLayout>
 
     <!-- More -->

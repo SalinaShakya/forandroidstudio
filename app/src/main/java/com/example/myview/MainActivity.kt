@@ -4,12 +4,15 @@ import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.semantics.text
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import com.example.myview.databinding.ActivityMainBinding
 import com.example.myview.fragment.FragmentHome
 import androidx.fragment.app.Fragment
+//import androidx.glance.visibility
+//import androidx.glance.visibility
 import com.example.myview.fragment.FragmentCart
 //import com.example.myview.fragment.FavoritesScreen
 import com.example.myview.fragment.FragmentMore
@@ -28,6 +31,9 @@ class MainActivity : AppCompatActivity() {
 
         CartManager.init(this)
         FavoriteManager.init(this)
+        updateCartBadge()
+        updateNavBadge()
+        updateTotal()
 
         enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainFrame)
@@ -48,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             updateBottomNav("cart")
         }
 
-        binding.bottomNav.navFavorite.setOnClickListener {
+        binding.bottomNav.navfavorite.setOnClickListener {
             loadFragment(FragmentFavourite())
             updateBottomNav("favorite")
         }
@@ -134,16 +140,47 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadFragment(fragment: Fragment) {
+        updateCartBadge()
+        updateNavBadge()
+        updateTotal()
+
+
         val tag = fragment.javaClass.simpleName
         supportFragmentManager.beginTransaction()
             .replace(binding.mainFrame.id, fragment, tag)
             .addToBackStack(tag)
             .commit()
+    }
+    fun updateCartBadge() {
+        val totalItems = CartManager.cartItems.sumOf { it.quantity }
 
+        if (totalItems > 0) {
+            binding.bottomNav.cartBadge.visibility = View.VISIBLE
+            binding.bottomNav.cartBadge.text = totalItems.toString()
+        } else {
+            binding.bottomNav.cartBadge.visibility = View.GONE
+        }
+    }
 
-
+    fun updateNavBadge() {
+        val totalItems = FavoriteManager.favorites.size
+        if (totalItems > 0) {
+            binding.bottomNav.navBadge.visibility = View.VISIBLE
+            binding.bottomNav.navBadge.text = totalItems.toString()
+        } else {
+            binding.bottomNav.navBadge.visibility = View.GONE
+        }
+    }
+    fun updateTotal() {
+        updateCartBadge()
+        updateNavBadge()
     }
     fun openCartTab() {
+
+        updateCartBadge()
+        updateNavBadge()
+        updateTotal()
+
         loadFragment(FragmentCart())
         updateBottomNav("cart")
     }

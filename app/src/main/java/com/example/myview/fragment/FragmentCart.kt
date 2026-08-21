@@ -18,6 +18,7 @@ import com.example.myview.databinding.FragmentCartBinding
 import com.google.firebase.auth.FirebaseAuth
 
 import androidx.compose.material3.Text
+import androidx.compose.ui.semantics.text
 
 
 class FragmentCart : Fragment() {
@@ -97,13 +98,29 @@ class FragmentCart : Fragment() {
         // Update item count label
         val count = CartManager.cartItems.sumOf { it.quantity }
         binding.item.text = "Items ($count)"
+        updateTotal() // <--- Add this call
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+    private fun updateTotal() {
+        val total = CartManager.cartItems.sumOf { it.price * it.quantity }
+        binding.txtTotal.text = getString(R.string.rs, total.toString())
 
+        // 1. Calculate total items
+        val count = CartManager.cartItems.sumOf { it.quantity }
+        binding.item.text = "Items ($count)"
+
+        // 2. Add THIS BLOCK to update the Badge!
+        if (count > 0) {
+            binding.txtCartBadge.visibility = View.VISIBLE
+            binding.txtCartBadge.text = count.toString()
+        } else {
+            binding.txtCartBadge.visibility = View.GONE
+        }
+    }
 
     @Preview(showBackground = true)
     @Composable

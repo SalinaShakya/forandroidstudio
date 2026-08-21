@@ -90,6 +90,7 @@
                             <ImageView
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
+
                                 android:background="@drawable/circle_profile"
                                 android:padding="2dp"
                                 android:scaleType="centerCrop"
@@ -381,12 +382,7 @@
                         </LinearLayout>
 
                         <!-- LOGOUT BUTTON -->
-                        <include
-                            android:id="@+id/layoutLogout"
-                            layout="@layout/logout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp" />
+
                     </LinearLayout>
 
                     <!-- GUEST SECTION -->
@@ -533,6 +529,12 @@
                             android:textColor="#222222"
                             android:textSize="14sp" />
                     </LinearLayout>
+                    <include
+                        android:id="@+id/layoutLogout"
+                        layout="@layout/logout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

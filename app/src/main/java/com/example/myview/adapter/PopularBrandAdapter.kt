@@ -1,6 +1,7 @@
 package com.example.myview.adapter
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -126,6 +127,7 @@ class PopularBrandAdapter(
                 image = product.image
             )
             FavoriteManager.addFavorite(favorite)
+            holder.binding.btnFavourite.setColorFilter(Color.parseColor("#43C230"))
             Toast.makeText(holder.itemView.context, "Added to favorites", Toast.LENGTH_SHORT).show()
         }
     }

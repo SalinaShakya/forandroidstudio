@@ -116,6 +116,17 @@ class FragmentHome : Fragment() {
         binding.categoriesRecyclerView.setHasFixedSize(true)
         binding.categoriesRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+
+        binding.featuredRecyclerView.itemAnimator = null
+        binding.hotdealscarousel.itemAnimator = null
+        binding.hotdealscarousel.itemAnimator = null
+
+        binding.popularrecycler.itemAnimator = null
+        binding.recommendedrecycler.itemAnimator = null
+
+
+
+
         val categoryData = listOf(
             Category("Mobile", R.drawable.ic_shop_mobile),
             Category("Electronic Device", R.drawable.ic_shop_computer),
@@ -126,6 +137,7 @@ class FragmentHome : Fragment() {
     }
 
     override fun onResume() {
+
         super.onResume()
         // Every time we come back to this screen, refresh the quantities
         viewModel.refreshQuantitiesOnly()
