@@ -14,7 +14,9 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import com.example.myview.data.api.RetrofitClient
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import com.example.myview.data.CartManager
 import com.example.myview.data.FavoriteManager
 import com.example.myview.data.local.FavoriteEntity
 
@@ -29,6 +31,7 @@ class FeaturedActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         enableEdgeToEdge()
+        updateCartBadge()
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.featuredRoot)
         { v, insets -> val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -44,7 +47,7 @@ class FeaturedActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.imgCart.setOnClickListener {
+        binding.imgCartFP.setOnClickListener {
             val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
         }
@@ -79,19 +82,33 @@ class FeaturedActivity : AppCompatActivity() {
                         image = product.image
                     )
                     FavoriteManager.addFavorite(favorite)
-//                    Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show()
-
+                    
+                    // Refresh the heart color immediately
+                    binding.imgLike.setColorFilter(Color.parseColor("#43C230"))
                 }
+
                 val isCurrentlyFavorite = FavoriteManager.favorites.any { it.id == product.id }
 
                 if (isCurrentlyFavorite) {
-                    binding.imgLike.setColorFilter(Color.parseColor("#43C230")) }
-                else {
-                    binding.imgLike.clearColorFilter() }
+                    binding.imgLike.setColorFilter(Color.parseColor("#43C230"))
+                } else {
+                    binding.imgLike.clearColorFilter()
+                }
+                
             } catch (e: Exception) {
                 Log.e("FeaturedActivity", "Error fetching product: ${e.message}")
                 Toast.makeText(this@FeaturedActivity, "Error loading product details", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun updateCartBadge() {
+        val cartCount = CartManager.cartItems.sumOf { it.quantity }
+        if (cartCount > 0) {
+            binding.txtCartBadgeFP.visibility = View.VISIBLE
+            binding.txtCartBadgeFP.text = cartCount.toString()
+        } else {
+            binding.txtCartBadgeFP.visibility = View.GONE
         }
     }
 }
