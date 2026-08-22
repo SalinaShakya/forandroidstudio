@@ -139,6 +139,7 @@ class FragmentHome : Fragment() {
     override fun onResume() {
 
         super.onResume()
+
         // Every time we come back to this screen, refresh the quantities
         viewModel.refreshQuantitiesOnly()
     }

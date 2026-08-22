@@ -71,6 +71,7 @@ class FeaturedProductsAdapter(
 
             product.quantity = 1
             CartManager.addToCart(product) //update data then refresh ui
+//            (holder.itemView.context as? MainActivity)?.updateCartBadge() //not working
             notifyItemChanged(holder.bindingAdapterPosition)
 
 

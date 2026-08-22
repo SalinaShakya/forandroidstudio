@@ -37,6 +37,8 @@
             android:textColor="#2DBE17"/>
     </LinearLayout>
 
+
+
     <!-- Cart -->
     <LinearLayout
         android:id="@+id/navforcart"
@@ -44,7 +46,9 @@
         android:layout_height="56dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -62,7 +66,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="top|end"
-                android:layout_marginTop="-4dp"
+                android:layout_marginTop="-8dp"
                 android:layout_marginEnd="-4dp"
                 android:background="@drawable/bottom_greenc"
                 android:gravity="center"
@@ -84,6 +88,7 @@
             android:visibility="gone"/>
     </LinearLayout>
 
+
     <!-- Favourite -->
     <LinearLayout
         android:id="@+id/navforfavourite"
@@ -91,7 +96,9 @@
         android:layout_height="56dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -109,7 +116,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="top|end"
-                android:layout_marginTop="-4dp"
+                android:layout_marginTop="-6dp"
                 android:layout_marginEnd="-4dp"
                 android:background="@drawable/bottom_greenc"
                 android:gravity="center"
@@ -124,7 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Fav"
+            android:text="Favorite"
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="#2DBE17"
