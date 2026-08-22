@@ -31,8 +31,12 @@ class MainActivity : AppCompatActivity() {
 
         CartManager.init(this)
         FavoriteManager.init(this)
-        updateCartBadge()
-        updateNavBadge()
+        CartManager.cartObservable.observe(this) {
+            updateCartBadge()
+        }
+        FavoriteManager.favoritesObservable.observe(this) {
+            updateNavBadge()
+        }
         updateTotal()
 
         enableEdgeToEdge()
@@ -175,6 +179,12 @@ class MainActivity : AppCompatActivity() {
         updateCartBadge()
         updateNavBadge()
     }
+//    override fun onResume() { //this isnt working
+//        super.onResume()
+//        updateCartBadge()
+//        updateNavBadge()
+//        updateTotal()
+//    }
     fun openCartTab() {
 
         updateCartBadge()

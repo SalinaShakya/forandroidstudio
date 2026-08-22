@@ -19,8 +19,12 @@ object CartManager {
     val cartItems = mutableListOf<CartItem>() //cartitem
     private lateinit var cartDao: com.example.myview.data.local.CartDao
 
-
+    val cartObservable = androidx.lifecycle.MutableLiveData<List<CartItem>>() //for my updates realtime
     //    fun init(context: Context) {
+
+    private fun notifyChange() {
+        cartObservable.postValue(cartItems)
+    }
     fun init(context: Context, onLoaded: (() -> Unit)? = null) {
 
         cartDao = DatabaseProvider
@@ -92,6 +96,7 @@ object CartManager {
 //                    )
 //                )
 //            }
+            notifyChange()
 
         } else {
 
@@ -142,6 +147,7 @@ object CartManager {
 //                )
 //            }
             updateInRoomAndCloud(item)
+            notifyChange()
         }
     }
 
@@ -166,6 +172,7 @@ object CartManager {
 //                )
 //            }
             deleteFromRoomAndCloud(item)
+            notifyChange()
         }
     }
 

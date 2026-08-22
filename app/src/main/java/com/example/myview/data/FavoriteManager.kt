@@ -14,7 +14,10 @@ import kotlinx.coroutines.withContext
 object FavoriteManager {
 
     val favorites = mutableStateListOf<FavoriteEntity>() //favoriteEntity
-
+    val favoritesObservable = androidx.lifecycle.MutableLiveData<List<FavoriteEntity>>() //for realtime update
+    private fun notifyChange() {
+        favoritesObservable.postValue(favorites)
+    }
     private lateinit var favoriteDao: com.example.myview.data.local.FavoriteDao
 
     fun init(context: Context, onLoaded: (() -> Unit)? = null) {
@@ -50,6 +53,7 @@ object FavoriteManager {
 
                     CoroutineScope(Dispatchers.IO).launch {
                         favoriteDao.insertFavorite(favorite)
+                        notifyChange()
                     }
                 }
 
@@ -61,6 +65,7 @@ object FavoriteManager {
 
         CoroutineScope(Dispatchers.IO).launch {
             favoriteDao.deleteFavorite(favorite)
+            notifyChange()
         }
     }
 
