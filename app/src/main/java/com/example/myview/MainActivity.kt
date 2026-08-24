@@ -29,8 +29,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        CartManager.init(this)
-        FavoriteManager.init(this)
+        CartManager.init(this) {
+            runOnUiThread {
+                updateCartBadge()
+            }
+        }
+        FavoriteManager.init(this){
+            runOnUiThread {
+                updateNavBadge()
+            }
+        }
         CartManager.cartObservable.observe(this) {
             updateCartBadge()
         }
