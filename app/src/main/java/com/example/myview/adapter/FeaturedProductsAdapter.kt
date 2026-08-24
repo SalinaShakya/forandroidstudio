@@ -15,6 +15,7 @@ import androidx.compose.ui.res.colorResource
 import com.example.myview.CartActivity
 import com.example.myview.FeaturedActivity
 import com.example.myview.MainActivity
+import com.example.myview.R
 import com.example.myview.data.CartManager
 import com.example.myview.data.FavoriteManager
 import com.example.myview.data.local.FavoriteEntity
@@ -53,8 +54,11 @@ class FeaturedProductsAdapter(
 
         val isCurrentlyFavorite = FavoriteManager.favorites.any { it.id == product.id }
         if (isCurrentlyFavorite) {
-        // Change heart to Green
-        holder.binding.btnFavourite.setColorFilter(Color.parseColor("#43C230")) }
+            // Change heart to Green
+//        holder.binding.btnFavourite.setColorFilter(Color.parseColor("#43C230")) }
+
+            holder.binding.btnFavourite.setImageResource(R.drawable.ic_temp)
+        }
         else {
         // Change heart back to the default color (usually Black or Gray)
         holder.binding.btnFavourite.clearColorFilter()
@@ -125,16 +129,47 @@ class FeaturedProductsAdapter(
 
         }
         holder.binding.btnFavourite.setOnClickListener {
+//            val favorite = FavoriteEntity(
+//                id = product.id,
+//                title = product.title,
+//                price = product.price,
+//                image = product.image
+//            )
+//            FavoriteManager.addFavorite(favorite)
+//            notifyItemChanged(holder.bindingAdapterPosition)
+////            holder.binding.btnFavourite.setColorFilter(Color.parseColor("#43C230"))
+//            holder.binding.btnFavourite.setImageResource(R.drawable.ic_temp)
+//
+//            Toast.makeText(holder.itemView.context, "Added to favorites", Toast.LENGTH_SHORT).show()
+//        }
             val favorite = FavoriteEntity(
                 id = product.id,
                 title = product.title,
                 price = product.price,
                 image = product.image
             )
-            FavoriteManager.addFavorite(favorite)
-            notifyItemChanged(holder.bindingAdapterPosition)
-            holder.binding.btnFavourite.setColorFilter(Color.parseColor("#43C230"))
-            Toast.makeText(holder.itemView.context, "Added to favorites", Toast.LENGTH_SHORT).show()
+
+            val isFav = FavoriteManager.favorites.any { it.id == product.id }
+
+            if (isFav) {
+                FavoriteManager.removeFavorite(favorite)
+                holder.binding.btnFavourite.setImageResource(R.drawable.ic_heart)
+
+                Toast.makeText(
+                    holder.itemView.context,
+                    "Removed from favorites",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                FavoriteManager.addFavorite(favorite)
+                holder.binding.btnFavourite.setImageResource(R.drawable.ic_temp)
+
+                Toast.makeText(
+                    holder.itemView.context,
+                    "Added to favorites",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
     }

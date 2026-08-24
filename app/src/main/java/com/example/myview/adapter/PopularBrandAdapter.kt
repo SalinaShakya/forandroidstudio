@@ -1,7 +1,6 @@
 package com.example.myview.adapter
 
 import android.content.Intent
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,22 +47,21 @@ class PopularBrandAdapter(
 
         holder.binding.root.setOnClickListener {
             val intent = Intent(holder.itemView.context, FeaturedActivity::class.java)
-
             intent.putExtra("title", product.title)
             intent.putExtra("category", product.category)
             intent.putExtra("price", product.price)
             intent.putExtra("description", product.description)
             intent.putExtra("image", product.image)
-
             holder.itemView.context.startActivity(intent)
         }
+
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, FeaturedActivity::class.java)
             intent.putExtra("product_id", product.id)
             holder.itemView.context.startActivity(intent)
-
         }
-        //expand
+
+        // Add to cart
         holder.binding.btnAdd.setOnClickListener {
             CartManager.addToCart(product)
             product.quantity = 1
@@ -75,20 +73,17 @@ class PopularBrandAdapter(
                 Snackbar.LENGTH_LONG
             )
                 .setAction("GOTO CART") {
-
                     val intent = Intent(
                         holder.itemView.context,
                         MainActivity::class.java
                     )
-
                     intent.putExtra("open_fragment", "cart")
-
                     holder.itemView.context.startActivity(intent)
-
                 }
                 .show()
         }
-        //collapse
+
+        // Decrease quantity
         holder.binding.btnMinus.setOnClickListener {
             if (product.quantity > 1) {
                 product.quantity--
@@ -100,25 +95,33 @@ class PopularBrandAdapter(
                 CartManager.removeFromCart(product.id)
             }
         }
-        //increase
+
+        // Increase quantity
         holder.binding.btnPlus.setOnClickListener {
-            CartManager.updateQuantity(product.id, product.quantity)
             product.quantity++
             holder.binding.txtQuantity.text = product.quantity.toString()
+            CartManager.updateQuantity(product.id, product.quantity)
         }
-        //ui
-        if (product.quantity == 0) {
 
+        // Cart UI
+        if (product.quantity == 0) {
             holder.binding.btnAdd.visibility = View.VISIBLE
             holder.binding.quantityCard.visibility = View.GONE
-
         } else {
-
             holder.binding.btnAdd.visibility = View.GONE
             holder.binding.quantityCard.visibility = View.VISIBLE
             holder.binding.txtQuantity.text = product.quantity.toString()
-
         }
+
+        // Favorite UI - set correct icon when binding
+        val isCurrentlyFavorite = FavoriteManager.favorites.any { it.id == product.id }
+
+        holder.binding.btnFavourite.setImageResource(
+            if (isCurrentlyFavorite) R.drawable.ic_temp
+            else R.drawable.ic_heart
+        )
+
+        // Favorite toggle
         holder.binding.btnFavourite.setOnClickListener {
             val favorite = FavoriteEntity(
                 id = product.id,
@@ -126,9 +129,28 @@ class PopularBrandAdapter(
                 price = product.price,
                 image = product.image
             )
-            FavoriteManager.addFavorite(favorite)
-            holder.binding.btnFavourite.setColorFilter(Color.parseColor("#43C230"))
-            Toast.makeText(holder.itemView.context, "Added to favorites", Toast.LENGTH_SHORT).show()
+
+            val isFav = FavoriteManager.favorites.any { it.id == product.id }
+
+            if (isFav) {
+                FavoriteManager.removeFavorite(favorite)
+                holder.binding.btnFavourite.setImageResource(R.drawable.ic_heart)
+
+                Toast.makeText(
+                    holder.itemView.context,
+                    "Removed from favorites",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                FavoriteManager.addFavorite(favorite)
+                holder.binding.btnFavourite.setImageResource(R.drawable.ic_temp)
+
+                Toast.makeText(
+                    holder.itemView.context,
+                    "Added to favorites",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
