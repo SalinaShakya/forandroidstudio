@@ -46,6 +46,8 @@ class FragmentMore : Fragment() {
                 binding.layoutLoggedIn.visibility = View.GONE
                 binding.layoutGuest.visibility = View.VISIBLE
 
+                    val intent = Intent(requireContext(), LoginActivity::class.java)
+                    startActivity(intent)
                 // D. Show a confirmation message
                 Toast.makeText(requireContext(), "Logged out successfully", Toast.LENGTH_SHORT).show()
             }

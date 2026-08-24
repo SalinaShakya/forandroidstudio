@@ -199,7 +199,7 @@ fun FavoritesScreen( //the main
                                     text = item.title,
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.Bold,
-                                    maxLines = 2
+                                    maxLines = 1
                                 )
                                 Text(
                                     text = "IN STOCK - 99SHOP",

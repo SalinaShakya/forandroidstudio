@@ -63,7 +63,7 @@ class FeaturedProductsAdapter(
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, FeaturedActivity::class.java)
-            intent.putExtra("product_id", product.id) 
+            intent.putExtra("product_id", product.id)
             holder.itemView.context.startActivity(intent)
         }
         //expand
@@ -81,16 +81,7 @@ class FeaturedProductsAdapter(
                 Snackbar.LENGTH_LONG
             )
                 .setAction("GOTO CART") {
-
-                    val intent = Intent(
-                        holder.itemView.context,
-                        MainActivity::class.java
-                    )
-
-                    intent.putExtra("open_fragment", "cart")
-
-                    holder.itemView.context.startActivity(intent)
-
+                    (holder.itemView.context as? MainActivity)?.openCartTab()
                 }
                 .show()
         }

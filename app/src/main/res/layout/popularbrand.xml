@@ -20,13 +20,29 @@
             android:paddingBottom="12dp">
 
             <!-- Product Image -->
-            <ImageView
-                android:id="@+id/imgProduct"
+<!--            <ImageView-->
+<!--                android:id="@+id/imgProduct"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="140dp"-->
+<!--                android:padding="20dp"-->
+<!--                android:scaleType="fitCenter"-->
+<!--                android:src="@drawable/ic_launcher_background" />-->
+            <!-- Product Image Container -->
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:padding="20dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_launcher_background" />
+                android:layout_height="160dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/rectangle_product"
+                android:padding="18dp">
+
+                <ImageView
+                    android:id="@+id/imgProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_launcher_background"/>
+
+            </FrameLayout>
 
             <!-- Product Title -->
             <TextView
