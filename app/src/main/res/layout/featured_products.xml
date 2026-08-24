@@ -28,16 +28,31 @@
 <!--                android:src="@drawable/ic_launcher_background" />-->
             <!-- Product Image Container -->
             <!-- Product Image Container -->
+<!--            <FrameLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="130dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:background="@drawable/rectangle_product"-->
+<!--                android:padding="18dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imgProduct"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:scaleType="fitCenter"-->
+<!--                    android:src="@drawable/ic_launcher_background"/>-->
+
+<!--            </FrameLayout>-->
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_marginBottom="10dp"
+                android:layout_height="160dp"
+                android:layout_marginBottom="12dp"
                 android:background="@drawable/rectangle_product"
                 android:padding="18dp">
 
                 <ImageView
                     android:id="@+id/imgProduct"
-                    android:layout_width="match_parent"
+                   android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_launcher_background"/>
