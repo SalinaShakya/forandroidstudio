@@ -35,6 +35,7 @@ class FragmentMore : Fragment() {
 
         if (currentUser != null) {
             // 1. The Log Out button listener
+            binding.layoutLogout.root.visibility = View.VISIBLE
                 binding.layoutLogout.LogOutButtonInclude.setOnClickListener {                // A. Sign out from Firebase
                 FirebaseAuth.getInstance().signOut()
 
@@ -66,6 +67,7 @@ class FragmentMore : Fragment() {
                 }
         } else {
             // 3. Show "Guest" layout
+            binding.layoutLogout.root.visibility = View.GONE
             binding.layoutLoggedIn.visibility = View.GONE
             binding.layoutGuest.visibility = View.VISIBLE
 

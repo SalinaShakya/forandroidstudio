@@ -117,7 +117,7 @@ class PopularBrandAdapter(
         val isCurrentlyFavorite = FavoriteManager.favorites.any { it.id == product.id }
 
         holder.binding.btnFavourite.setImageResource(
-            if (isCurrentlyFavorite) R.drawable.ic_temp
+            if (isCurrentlyFavorite) R.drawable.baseline_favorite_24
             else R.drawable.ic_heart
         )
 
@@ -143,7 +143,7 @@ class PopularBrandAdapter(
                 ).show()
             } else {
                 FavoriteManager.addFavorite(favorite)
-                holder.binding.btnFavourite.setImageResource(R.drawable.ic_temp)
+                holder.binding.btnFavourite.setImageResource(R.drawable.baseline_favorite_24)
 
                 Toast.makeText(
                     holder.itemView.context,

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.myview.data.FavoriteManager.favorites
 import com.example.myview.fragment.FavoriteEmptyScreen
 import com.example.myview.fragment.FavoritesScreen
+import com.example.myview.fragment.FragmentHome
 
 class FragmentFavourite : Fragment() {
 
@@ -27,6 +28,11 @@ class FragmentFavourite : Fragment() {
                         },
                         onCartClick = {
                             (requireActivity() as MainActivity).openCartTab()
+                        },
+                        onContinueShopping = {
+                            (requireActivity() as MainActivity)
+                                .onBackPressedDispatcher
+                                .onBackPressed()
                         }
                     )
                 } else {
@@ -40,7 +46,6 @@ class FragmentFavourite : Fragment() {
                         }
                     )
                 }
-
             }
         }
     }

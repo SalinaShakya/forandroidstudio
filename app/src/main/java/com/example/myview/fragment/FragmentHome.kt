@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.core.view.setMargins
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-//import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,14 +34,12 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
 class FragmentHome : Fragment() {
-//    private val viewModel: HomeViewModel by viewModels()
-    //viewModels tied to the fragments lifecycle and my mainactivity uses the replace so it when fragment home is destroyed then my viewmodel is also destroyed and when i comeback a new viewmodel is created and my guard thinks its the first time so
-    //switched to activityViewModel as now the HomeViewModel lives inside the MainActivity so when i switch the fragment does die but obvi the mainactivity and the viewmodel stay alive and
-    //when i return to the home the fragment finds the old ViewModel there
+
     private val viewModel: HomeViewModel by activityViewModels()
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,66 +52,74 @@ class FragmentHome : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupRecyclerViews()
-        setupObservers() // Start listening for data
+        setupObservers()
+
         viewModel.fetchHomeData()
+
         binding.notification.setOnClickListener {
-            val intent = Intent(requireContext(), NotificationActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(requireContext(), NotificationActivity::class.java))
         }
     }
 
     private fun setupObservers() {
-        // 1. Featured Products
+
         viewModel.featuredProducts.observe(viewLifecycleOwner) { list ->
             binding.featuredRecyclerView.adapter = FeaturedProductsAdapter(list)
         }
 
-        // 2. Popular Brands
         viewModel.popularBrands.observe(viewLifecycleOwner) { list ->
             binding.popularrecycler.adapter = PopularBrandAdapter(list)
         }
 
-        // 3. Recommended Items
         viewModel.recommendedItems.observe(viewLifecycleOwner) { list ->
             binding.recommendedrecycler.adapter = FeaturedProductsAdapter(list)
         }
 
-        // 4. Hot Deals
         viewModel.hotDeals.observe(viewLifecycleOwner) { deals ->
             binding.hotdealscarousel.adapter = FeaturedProductsAdapter(deals)
         }
 
-        // 5. Categories
         viewModel.popularCategories.observe(viewLifecycleOwner) { categories ->
             val flexboxLayoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
                 flexWrap = FlexWrap.WRAP
                 justifyContent = JustifyContent.FLEX_START
             }
+
             binding.mostPopularTagsRecycler.layoutManager = flexboxLayoutManager
             binding.mostPopularTagsRecycler.adapter = PopularAdapter(categories.take(7))
         }
 
-        // 6. Handle the Loading Spinner
         viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
             viewLifecycleOwner.lifecycleScope.launch {
                 delay(3000L.milliseconds)
-                binding.loadingLayout.visibility = if (loading) View.VISIBLE else View.GONE
+                binding.loadingLayout.visibility =
+                    if (loading) View.VISIBLE else View.GONE
             }
         }
     }
 
     private fun setupRecyclerViews() {
-        binding.carouselRecyclerView.setHasFixedSize(true)
-        binding.carouselRecyclerView.layoutManager = CarouselLayoutManager()
-        CarouselSnapHelper().attachToRecyclerView(binding.carouselRecyclerView)
 
-        val imageList = mutableListOf(
-            R.drawable.yellowbanner,
-            R.drawable.esewa
+        binding.carouselRecyclerView.setHasFixedSize(true)
+//        binding.carouselRecyclerView.layoutManager = CarouselLayoutManager()
+        binding.carouselRecyclerView.layoutManager = CarouselLayoutManager(
+            com.google.android.material.carousel.MultiBrowseCarouselStrategy()
         )
-        binding.carouselRecyclerView.adapter = CarouselAdapter(imageList)
+        val snapHelper = CarouselSnapHelper()
+        snapHelper.attachToRecyclerView(binding.carouselRecyclerView)
+        binding.carouselRecyclerView.isNestedScrollingEnabled = false
+
+        val imageList = listOf(
+            R.drawable.yellowbanner,
+            R.drawable.esewa,
+            R.drawable.greenbanner
+        )
+
+        binding.carouselRecyclerView.adapter = CarouselAdapter(imageList.toMutableList())
+        setupCarouselIndicator(imageList, snapHelper)
 
         binding.categoriesRecyclerView.setHasFixedSize(true)
         binding.categoriesRecyclerView.layoutManager =
@@ -119,13 +127,8 @@ class FragmentHome : Fragment() {
 
         binding.featuredRecyclerView.itemAnimator = null
         binding.hotdealscarousel.itemAnimator = null
-        binding.hotdealscarousel.itemAnimator = null
-
         binding.popularrecycler.itemAnimator = null
         binding.recommendedrecycler.itemAnimator = null
-
-
-
 
         val categoryData = listOf(
             Category("Mobile", R.drawable.ic_shop_mobile),
@@ -133,14 +136,58 @@ class FragmentHome : Fragment() {
             Category("Fashions", R.drawable.ic_shop_clothing),
             Category("Groceries", R.drawable.ic_shop_grocery)
         )
+
         binding.categoriesRecyclerView.adapter = CategoryAdapter(categoryData)
     }
 
+    private fun setupCarouselIndicator(imageList: List<Int>,snapHelper: CarouselSnapHelper) {
+        //list-onscrolllistner(scrollidlestate)-snaphelper-map(positiondetection)-dots(statetrigger)-dot.isselected=true
+        val context = requireContext()
+        val indicatorContainer = binding.carouselIndicatorContainer
+        indicatorContainer.removeAllViews()
+
+        val dots = mutableListOf<ImageView>()
+        for (i in imageList.indices) {
+            val dot = ImageView(context).apply {
+                setImageResource(R.drawable.dots)
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(8, 0, 8, 0) // Added horizontal margins
+                }
+                isSelected = (i == 0)
+            }
+            dots.add(dot)
+            indicatorContainer.addView(dot)
+        }
+
+        // Use a variable for the SnapHelper to find the snapped view accurately
+//        val snapHelper = CarouselSnapHelper()
+        // If you already attached one in setupRecyclerViews,  reuse
+        // or just attach this new one here.
+
+        binding.carouselRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    val layoutManager = recyclerView.layoutManager
+                    val centerView = snapHelper.findSnapView(layoutManager)
+
+                    if (centerView != null) {
+                        val position = layoutManager?.getPosition(centerView) ?: 0
+                        dots.forEachIndexed { index, dot ->
+                            dot.isSelected = (index == position)
+                        }
+                    }
+                }
+            }
+        })
+    }
+
     override fun onResume() {
-
         super.onResume()
-
-        // Every time we come back to this screen, refresh the quantities
         viewModel.refreshQuantitiesOnly()
     }
 
