@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 import androidx.compose.material3.Text
 import androidx.compose.ui.semantics.text
+import com.example.myview.CheckoutActivity
 
 
 class FragmentCart : Fragment() {
@@ -77,6 +78,14 @@ class FragmentCart : Fragment() {
             updateTotalPrice()
         }
         updateTotalPrice()
+
+        binding.btnCheckout.setOnClickListener {
+            // 1. Create the intent for CheckoutActivity
+            val intent = Intent(requireContext(), CheckoutActivity::class.java)
+
+            // 2. Start the activity
+            startActivity(intent)
+        }
     }
 
     private fun setupGuestView() {

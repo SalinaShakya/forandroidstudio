@@ -1,8 +1,11 @@
 package com.example.myview.fragment
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
@@ -73,35 +76,57 @@ fun FavoriteEmptyScreen(
                 )
 
                 Spacer(modifier = Modifier.height(40.dp))
-
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                        .background(Color.White, RoundedCornerShape(12.dp))
+                        .border(1.dp, Color.LightGray, RoundedCornerShape(12.dp))
+                        .padding(24.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.empty_favorite),
-                        contentDescription = "Empty Favorites"
-                    )
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.empty_favorite),
+                            contentDescription = "Empty Favorites"
+                        )
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                        Spacer(modifier = Modifier.height(24.dp))
 
-                    Text(
-                        text = "No favorites yet.",
-                        style = MaterialTheme.typography.titleMedium
-                    )
+                        Text(
+                            text = "No favorites yet.",
+                            style = MaterialTheme.typography.titleMedium
+                        )
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(8.dp))
 
-                    Text(
-                        text = "Add your favorites to your wishlist and they will show here.",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.Gray
-                    )
+                        Text(
+                            text = "Add your favorites to your wishlist and they will show here.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.Gray
 
-                    Spacer(modifier = Modifier.height(24.dp))
 
-                    Button(onClick = onContinueShopping) {
-                        Text("CONTINUE SHOPPING")
+                        )
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+//                    Button(onClick = onContinueShopping) {
+//                        Text("CONTINUE SHOPPING")
+//                    }
+                        Button(
+                            onClick = onContinueShopping,
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFF4CAF50), // This is the Green color used elsewhere in your app
+                                contentColor = Color.White        // This is the text color
+                            ),
+                            shape = RoundedCornerShape(8.dp) // Optional: add rounding to match your app style
+                        ) {
+                            Text("CONTINUE SHOPPING")
+                        }
+
                     }
                 }
             }

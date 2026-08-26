@@ -57,7 +57,7 @@ class FeaturedProductsAdapter(
             // Change heart to Green
 //        holder.binding.btnFavourite.setColorFilter(Color.parseColor("#43C230")) }
 
-            holder.binding.btnFavourite.setImageResource(R.drawable.ic_temp)
+            holder.binding.btnFavourite.setImageResource(R.drawable.baseline_favorite_24)
         }
         else {
         // Change heart back to the default color (usually Black or Gray)
@@ -162,7 +162,7 @@ class FeaturedProductsAdapter(
                 ).show()
             } else {
                 FavoriteManager.addFavorite(favorite)
-                holder.binding.btnFavourite.setImageResource(R.drawable.ic_temp)
+                holder.binding.btnFavourite.setImageResource(R.drawable.baseline_favorite_24)
 
                 Toast.makeText(
                     holder.itemView.context,

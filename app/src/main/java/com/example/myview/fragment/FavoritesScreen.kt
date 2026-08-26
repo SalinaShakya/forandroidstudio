@@ -1,6 +1,7 @@
 package com.example.myview.fragment
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -46,6 +47,7 @@ import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -87,28 +89,45 @@ fun FavoritesScreen( //the main
                 },
 
                 // RIGHT: Cart
+//                actions = {
+//                    IconButton(
+//                        onClick = onCartClick
+//                    ) {
+//                        Icon(
+//                            painter = painterResource(id = R.drawable.forcartig),
+//                            //painterResource simply loads an image from my drawable
+//                            contentDescription = "Cart",
+//                            tint = Color.Unspecified
+//                        )
+//                    }
+//                },
+                //cart
                 actions = {
-                    IconButton(
-                        onClick = onCartClick
+                    Box(
+                        modifier = Modifier
+                            .padding(end = 16.dp) // Space from the right edge
+                            .size(40.dp) // Define the square size
+                            .clip(RectangleShape) // Ensures it's a rectangle
+                            .clickable { onCartClick() }, // Makes the whole rectangle clickable
+                        contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.forcartig),
-                            //painterResource simply loads an image from my drawable
                             contentDescription = "Cart",
-                            tint = Color.Unspecified
+                            tint = Color.Unspecified,
+                            modifier = Modifier.size(44.dp) // Size of the icon inside the box
                         )
                     }
                 },
-
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.White
-                )
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Color.White
+                    )
             )
         }
     ) { innerPadding ->
         LazyColumn( // the recycler view as in creating everything at once it only creates on whats visible
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxSize() //take up all the available space of the parent(width and height)
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp, vertical = 0.dp) //for that toolbar going down (adjust)
         ) {
@@ -172,7 +191,7 @@ fun FavoritesScreen( //the main
                             .padding(vertical = 8.dp),
                         shape = RoundedCornerShape(18.dp),
                         colors = CardDefaults.cardColors(containerColor = Color.White),
-                        elevation = CardDefaults.cardElevation(4.dp)
+                        elevation = CardDefaults.cardElevation(4.dp) //shadow (lifts above the bg)
                     ) {
                         Row(
                             modifier = Modifier.fillMaxSize(),
@@ -219,7 +238,7 @@ fun FavoritesScreen( //the main
                                 painter = painterResource(id = R.drawable.group),
                                 contentDescription = "Favorite",
                                 tint = Color.Black,
-                                modifier = Modifier.offset(x = (-20).dp, y = (-45).dp)
+                                modifier = Modifier.offset(x = (-10).dp, y = (-45).dp)
                             )
                         }
                     }

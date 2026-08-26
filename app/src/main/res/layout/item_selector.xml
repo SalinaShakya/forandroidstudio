@@ -56,12 +56,14 @@ app:cardBackgroundColor="@android:color/white"
         android:layout_marginEnd="12dp"
         android:text="50 T-Shirt"
         android:textColor="#333333"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/imageContainer"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/quantityCard"
-        android:maxLines="1"/>
+        android:maxLines="1"
+android:fontFamily="Source Sans Pro"
+        />
 
     <!-- Stock -->
     <TextView
@@ -73,7 +75,10 @@ app:cardBackgroundColor="@android:color/white"
         android:textColor="#9A9A9A"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@id/txtName"
-        app:layout_constraintTop_toBottomOf="@id/txtName"/>
+        app:layout_constraintTop_toBottomOf="@id/txtName"
+        android:fontFamily="Source Sans Pro
+
+"/>
 
     <!-- Price -->
     <TextView
