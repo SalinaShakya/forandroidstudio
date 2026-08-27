@@ -11,6 +11,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,17 +25,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myview.R
-import com.example.myview.data.CartManager
 import com.example.myview.data.local.FavoriteEntity
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.myview.data.model.CartItem
+import com.example.myview.ui.viewmodel.CheckoutViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CheckoutScreen(
+    viewModel: CheckoutViewModel,
     onBackClick: () -> Unit = {}
 ) {
+    val selectedPayment by viewModel.selectedPayment.collectAsState()
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -49,7 +54,7 @@ fun CheckoutScreen(
 
         },
         bottomBar = {
-            GrandTotal(price = "19,500.00")
+            GrandTotal(price = "${viewModel.getGrandTotal()}")
         }
 
     ) { innerPadding ->
@@ -93,36 +98,27 @@ fun CheckoutScreen(
             }
 
             Spacer(modifier = Modifier.height(10.dp))
-            Text(text = "Order Summary", fontSize = 15.sp, modifier = Modifier.padding(start = 4.dp))
-            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = "Order Summary (${viewModel.cartItems.sumOf { it.quantity}})", fontSize = 15.sp, modifier = Modifier.padding(start = 4.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
-            // Order Summary Box
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-            ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    CartManager.cartItems.forEach { item ->
+            //to create a separate box for each item in the cart
+            viewModel.cartItems.forEach { item ->
+                Spacer(modifier = Modifier.height(12.dp)) // The gap between the boxes
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                ) {
+                    // Box provides the internal side padding for the product row
+                    Box(modifier = Modifier.padding(horizontal = 16.dp)) {
                         OrderItemRow(item)
-                        if (item != CartManager.cartItems.last()) {
-                            HorizontalDivider(
-                                modifier = Modifier.padding(vertical = 12.dp),
-                                thickness = 0.5.dp,
-                                color = Color.LightGray.copy(alpha = 0.5f)
-                            )
-                        }
                     }
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Promo Code Section
-//            Box(modifier = Modifier.width(200.dp).height(50.dp), contentAlignment = Alignment.CenterStart) {
-//                Image(painter = painterResource(id = R.drawable.rect_clear), contentDescription = null, modifier = Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds)
             Box(
                 modifier = Modifier
                     .width(200.dp)
@@ -146,23 +142,31 @@ fun CheckoutScreen(
             // Payment Options Section
             Card(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(150.dp),
+                    .fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
             ) {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
                         .padding(vertical = 10.dp)
                 ) {
-                    PaymentItem(icon = R.drawable.ic_payment, label = "Cash on Delivery")
+                    PaymentItem(
+                        icon = R.drawable.ic_payment,
+                        label = "Cash on Delivery",
+                        isSelected = selectedPayment == "Cash on Delivery",
+                        onClick = { viewModel.selectPayment("Cash on Delivery") }
+                    )
                     Spacer(modifier = Modifier.height(12.dp))
 
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 20.dp))
                     Spacer(modifier = Modifier.height(10.dp))
-                    PaymentItem(icon = R.drawable.ic_brand, label = "Pay with eSewa")
+                    PaymentItem(
+                        icon = R.drawable.ic_brand,
+                        label = "Pay with eSewa",
+                        isSelected = selectedPayment == "Pay with eSewa",
+                        onClick = { viewModel.selectPayment("Pay with eSewa") }
+                    )
                 }
             }
 
@@ -218,7 +222,7 @@ fun OrderItemRow(item: CartItem) {
                 maxLines = 1
             )
             Text(
-                text = "BRAND NAME", // Placeholder for subtitle
+                text = "item.name", // Placeholder for subtitle
                 fontSize = 11.sp,
                 color = Color.LightGray,
                 fontWeight = FontWeight.Bold
@@ -244,18 +248,43 @@ fun OrderItemRow(item: CartItem) {
 }
 
 @Composable
-fun PaymentItem(icon: Int, label: String) {
+fun PaymentItem(icon: Int, label: String, isSelected: Boolean, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(painter = painterResource(id = icon), contentDescription = null, modifier = Modifier.size(28.dp))
-        Text(text = label, modifier = Modifier
-            .padding(start = 16.dp)
-            .weight(1f), fontSize = 14.sp)
-        Image(painter = painterResource(id = R.drawable.ic_front), contentDescription = null, modifier = Modifier.size(16.dp))
+        Image(
+            painter = painterResource(id = icon),
+            contentDescription = null,
+            modifier = Modifier.size(28.dp),
+            alpha = if (isSelected) 1f else 0.5f
+        )
+        Text(
+            text = label,
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .weight(1f),
+            fontSize = 14.sp,
+            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+            color = if (isSelected) Color.Black else Color.Gray
+        )
+        if (isSelected) {
+            Icon(
+                painter = painterResource(id = R.drawable.tick),
+                contentDescription = null,
+                tint = Color(0xFF2ABB00),
+                modifier = Modifier.size(20.dp)
+            )
+        } else {
+            Image(
+                painter = painterResource(id = R.drawable.ic_front),
+                contentDescription = null,
+                modifier = Modifier.size(16.dp)
+            )
+        }
     }
 }
 
@@ -320,11 +349,13 @@ fun GrandTotal(price: String) {
 }
 
 
-            @Preview(showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun CheckoutScreenPreview() {
     MaterialTheme {
-        CheckoutScreen()
-
+        CheckoutScreen(
+            viewModel = CheckoutViewModel(),
+            onBackClick = {}
+        )
     }
 }
