@@ -19,6 +19,7 @@ object DatabaseProvider {
                 "app_database"
             )
 //                .addMigrations(MIGRATION_1_2) //this
+                .fallbackToDestructiveMigration() // <--- ADD THIS LINE
                 .build()
 
 

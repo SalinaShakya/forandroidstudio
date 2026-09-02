@@ -1,5 +1,6 @@
 package com.example.myview.data
 
+import android.R.attr.category
 import android.content.Context
 import com.example.myview.data.model.CartItem
 import com.example.myview.data.model.ProductResponse
@@ -56,7 +57,8 @@ object CartManager {
                     title = entity.title,
                     price = entity.price,
                     image = entity.image,
-                    quantity = entity.quantity
+                    quantity = entity.quantity,
+                    category=entity.category
                 )
             }
             //only one person (Main Thread) is touching the (cartItems) at a time (waiter,cookie jar)
@@ -64,6 +66,7 @@ object CartManager {
             withContext(Dispatchers.Main) {
                 cartItems.clear()
                 cartItems.addAll(items)
+                notifyChange()
 
                 // 4. Callback is also safe now because we are on Main thread(listening screens that the data is ready)
                 onLoaded?.invoke()
@@ -105,7 +108,8 @@ object CartManager {
                 title = product.title,
                 price = product.price,
                 image = product.image,
-                quantity = 1
+                quantity = 1,
+                category = product.category,
             )
 
             cartItems.add(item)
@@ -185,7 +189,8 @@ object CartManager {
                     item.title,
                     item.price,
                     item.image,
-                    item.quantity
+                    item.quantity,
+                    item.category
                 )
             )
         }
@@ -198,6 +203,7 @@ object CartManager {
                 "priceAtAddition" to item.price,
                 "image" to item.image,
                 "quantity" to item.quantity,
+                "category" to item.category,
                 "updatedAt" to Timestamp.now()
             )
             FirebaseFirestore.getInstance().collection("Users").document(uid)
@@ -213,7 +219,8 @@ object CartManager {
                     item.title,
                     item.price,
                     item.image,
-                    item.quantity
+                    item.quantity,
+                    item.category
                 )
             )
         }
@@ -233,7 +240,8 @@ object CartManager {
                     item.title,
                     item.price,
                     item.image,
-                    item.quantity
+                    item.quantity,
+                    item.category
                 )
             )
         }
@@ -258,19 +266,20 @@ object CartManager {
                     val price = doc.getDouble("priceAtAddition") ?: 0.0
                     val image = doc.getString("image") ?: ""
                     val qty = doc.getLong("quantity")?.toInt() ?: 1
-
-                    cloudItems.add(CartItem(id, title, price, image, qty))
+                    val cat = doc.getString("category") ?: "Uncategorized" //get from cloud
+                    cloudItems.add(CartItem(id, title, price, image, qty,cat)) //where is this coming from
                 }
                 // 2. Save to Room & Update local list
                 CoroutineScope(Dispatchers.IO).launch {
                     cartDao.clearCart() // Wipe old guest items
                     cloudItems.forEach { item ->
-                        cartDao.insertCartItem(CartEntity(item.id, item.title, item.price, item.image, item.quantity))
+                        cartDao.insertCartItem(CartEntity(item.id, item.title, item.price, item.image, item.quantity,item.category))
                     }
 
                     withContext(Dispatchers.Main) {
                         cartItems.clear()
                         cartItems.addAll(cloudItems)
+                        notifyChange()
                         onComplete() // Tell the UI to refresh
                     }
                 }
