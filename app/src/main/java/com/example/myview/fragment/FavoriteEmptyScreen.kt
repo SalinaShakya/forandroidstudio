@@ -3,6 +3,7 @@ package com.example.myview.fragment
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,7 +13,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,15 +49,33 @@ fun FavoriteEmptyScreen(
                         )
                     }
                 },
+//                actions = {
+//                    IconButton(onClick = onCartClick) {
+//                        Icon(
+//                            painter = painterResource(id = R.drawable.forcartig),
+//                            contentDescription = "Cart",
+//                            tint = Color.Unspecified
+//                        )
+//                    }
+//                } that made it circle
                 actions = {
-                    IconButton(onClick = onCartClick) {
+                    Box(
+                        modifier = Modifier
+                            .padding(end = 16.dp) // Space from the right edge
+                            .size(40.dp) // Define the square size
+                            .clip(RectangleShape) // Ensures it's a rectangle
+                            .clickable { onCartClick() }, // Makes the whole rectangle clickable
+                        contentAlignment = Alignment.Center
+                    ) {
                         Icon(
                             painter = painterResource(id = R.drawable.forcartig),
                             contentDescription = "Cart",
-                            tint = Color.Unspecified
+                            tint = Color.Unspecified,
+                            modifier = Modifier.size(44.dp) // Size of the icon inside the box
                         )
                     }
-                },
+                }
+               ,
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = Color.White
                 )

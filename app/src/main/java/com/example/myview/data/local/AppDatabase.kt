@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
                 FavoriteEntity::class
     ],
 
-    version = 3, // as there are two tables in the same database now(ie:Room database schema version 2)
+    version = 4, // as there are two tables in the same database now(ie:Room database schema version 2)
     // as in AppDatabase has two tables 1.cart 2.Favorites
     exportSchema = false
 )

@@ -390,7 +390,7 @@ fun OrderItemRow(item: CartItem) {
                 maxLines = 1
             )
             Text(
-                text = item.category, // Placeholder for subtitle
+                text = item.category.uppercase(),
                 fontSize = 11.sp,
                 color = Color.LightGray,
                 fontWeight = FontWeight.Bold

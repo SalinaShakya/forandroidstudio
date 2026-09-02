@@ -10,5 +10,8 @@ data class FavoriteEntity(
 val id: Int,
 val title: String,
 val price: Double,
-val image: String
+val image: String,
+
+val category: String //for the cat(ViewModel)
+
 )
