@@ -168,91 +168,155 @@
                         android:layout_height="wrap_content"
                         android:scrollbars="none">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="horizontal">-->
 
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="60dp"
-                                android:layout_height="60dp"
-                                android:layout_marginEnd="12dp"
-                                app:cardBackgroundColor="@android:color/white"
-                                app:cardCornerRadius="14dp"
-                                app:strokeColor="#C8CCE5"
-                                app:strokeWidth="1dp">
+<!--                            <com.google.android.material.card.MaterialCardView-->
+<!--                                android:layout_width="60dp"-->
+<!--                                android:layout_height="60dp"-->
+<!--                                android:layout_marginEnd="12dp"-->
+<!--                                app:cardBackgroundColor="@android:color/white"-->
+<!--                                app:cardCornerRadius="14dp"-->
+<!--                                app:strokeColor="#C8CCE5"-->
+<!--                                app:strokeWidth="1dp">-->
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+<!--                                <TextView-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="match_parent"-->
+<!--                                    android:gravity="center"-->
+<!--                                    android:text="S"-->
+<!--                                    android:textColor="#555A78"-->
+<!--                                    android:textSize="20sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+<!--                            </com.google.android.material.card.MaterialCardView>-->
+
+<!--                            <com.google.android.material.card.MaterialCardView-->
+<!--                                android:layout_width="60dp"-->
+<!--                                android:layout_height="60dp"-->
+<!--                                android:layout_marginEnd="12dp"-->
+<!--                                app:cardBackgroundColor="@android:color/white"-->
+<!--                                app:cardCornerRadius="14dp"-->
+<!--                                app:strokeColor="#C8CCE5"-->
+<!--                                app:strokeWidth="1dp">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="match_parent"-->
+<!--                                    android:gravity="center"-->
+<!--                                    android:text="M"-->
+<!--                                    android:textColor="#555A78"-->
+<!--                                    android:textSize="20sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+<!--                            </com.google.android.material.card.MaterialCardView>-->
+
+<!--                            <com.google.android.material.card.MaterialCardView-->
+<!--                                android:layout_width="60dp"-->
+<!--                                android:layout_height="60dp"-->
+<!--                                android:layout_marginEnd="12dp"-->
+<!--                                app:cardBackgroundColor="@android:color/white"-->
+<!--                                app:cardCornerRadius="14dp"-->
+<!--                                app:strokeColor="#C8CCE5"-->
+<!--                                app:strokeWidth="1dp">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="match_parent"-->
+<!--                                    android:gravity="center"-->
+<!--                                    android:text="L"-->
+<!--                                    android:textColor="#555A78"-->
+<!--                                    android:textSize="20sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+<!--                            </com.google.android.material.card.MaterialCardView>-->
+
+<!--                            <com.google.android.material.card.MaterialCardView-->
+<!--                                android:layout_width="60dp"-->
+<!--                                android:layout_height="60dp"-->
+<!--                                android:layout_marginEnd="12dp"-->
+<!--                                app:cardBackgroundColor="@android:color/white"-->
+<!--                                app:cardCornerRadius="14dp"-->
+<!--                                app:strokeColor="#C8CCE5"-->
+<!--                                app:strokeWidth="1dp">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="match_parent"-->
+<!--                                    android:gravity="center"-->
+<!--                                    android:text="XL"-->
+<!--                                    android:textColor="#555A78"-->
+<!--                                    android:textSize="20sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+<!--                            </com.google.android.material.card.MaterialCardView>-->
+<!--                        </LinearLayout>-->
+
+
+
+                            <!-- 1. The RadioGroup handles the "Only one selected" logic automatically -->
+                            <RadioGroup
+                                android:id="@+id/sizeRadioGroup"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <RadioButton
+                                    android:id="@+id/sizeS"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:layout_marginEnd="12dp"
+                                    android:background="@drawable/size_selector"
+                                    android:button="@null"
                                     android:gravity="center"
                                     android:text="S"
-                                    android:textColor="#555A78"
+                                    android:textColor="@drawable/size_text_color_selector"
                                     android:textSize="20sp"
                                     android:textStyle="bold" />
 
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="60dp"
-                                android:layout_height="60dp"
-                                android:layout_marginEnd="12dp"
-                                app:cardBackgroundColor="@android:color/white"
-                                app:cardCornerRadius="14dp"
-                                app:strokeColor="#C8CCE5"
-                                app:strokeWidth="1dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                <RadioButton
+                                    android:id="@+id/sizeM"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:layout_marginEnd="12dp"
+                                    android:background="@drawable/size_selector"
+                                    android:button="@null"
                                     android:gravity="center"
                                     android:text="M"
-                                    android:textColor="#555A78"
+                                    android:textColor="@drawable/size_text_color_selector"
                                     android:textSize="20sp"
                                     android:textStyle="bold" />
 
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="60dp"
-                                android:layout_height="60dp"
-                                android:layout_marginEnd="12dp"
-                                app:cardBackgroundColor="@android:color/white"
-                                app:cardCornerRadius="14dp"
-                                app:strokeColor="#C8CCE5"
-                                app:strokeWidth="1dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                <RadioButton
+                                    android:id="@+id/sizeL"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:layout_marginEnd="12dp"
+                                    android:background="@drawable/size_selector"
+                                    android:button="@null"
                                     android:gravity="center"
                                     android:text="L"
-                                    android:textColor="#555A78"
+                                    android:textColor="@drawable/size_text_color_selector"
                                     android:textSize="20sp"
                                     android:textStyle="bold" />
 
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="60dp"
-                                android:layout_height="60dp"
-                                android:layout_marginEnd="12dp"
-                                app:cardBackgroundColor="@android:color/white"
-                                app:cardCornerRadius="14dp"
-                                app:strokeColor="#C8CCE5"
-                                app:strokeWidth="1dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                <RadioButton
+                                    android:id="@+id/sizeXL"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:layout_marginEnd="12dp"
+                                    android:background="@drawable/size_selector"
+                                    android:button="@null"
                                     android:gravity="center"
                                     android:text="XL"
-                                    android:textColor="#555A78"
+                                    android:textColor="@drawable/size_text_color_selector"
                                     android:textSize="20sp"
                                     android:textStyle="bold" />
 
-                            </com.google.android.material.card.MaterialCardView>
-                        </LinearLayout>
+                            </RadioGroup>
+
                     </HorizontalScrollView>
 
                     <View
@@ -276,75 +340,135 @@
                         android:layout_height="wrap_content"
                         android:scrollbars="none">
 
-                        <LinearLayout
+
+                        <RadioGroup
+                            android:id="@+id/colorRadioGroup"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-
-                            <com.google.android.material.card.MaterialCardView
+                        <!-- Gray Color -->
+                        <RadioButton
+                            android:id="@+id/colorGray"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/select_gray"
+                            android:button="@null" />
+                            <RadioButton
+                                android:id="@+id/colorRed"
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:layout_marginEnd="12dp"
-                                app:cardBackgroundColor="#C7C8D9"
-                                app:cardCornerRadius="14dp"
-                                app:strokeColor="#C8CCE5"
-                                app:strokeWidth="1dp" />
-
-                            <com.google.android.material.card.MaterialCardView
+                                android:background="@drawable/select_red"
+                                android:button="@null" />
+                            <RadioButton
+                                android:id="@+id/colorPurple"
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:layout_marginEnd="12dp"
-                                app:cardBackgroundColor="#F97171"
-                                app:cardCornerRadius="14dp"
-                                app:strokeColor="#C8CCE5"
-                                app:strokeWidth="1dp" />
-
-                            <com.google.android.material.card.MaterialCardView
+                                android:background="@drawable/select_purple"
+                                android:button="@null" />
+                            <RadioButton
+                                android:id="@+id/colorBlue"
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:layout_marginEnd="12dp"
-                                app:cardBackgroundColor="#D796F5"
-                                app:cardCornerRadius="14dp"
-                                app:strokeColor="#C8CCE5"
-                                app:strokeWidth="1dp" />
-
-                            <com.google.android.material.card.MaterialCardView
+                                android:background="@drawable/select_blue"
+                                android:button="@null" />
+                            <RadioButton
+                                android:id="@+id/colorBrown"
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:layout_marginEnd="12dp"
-                                app:cardBackgroundColor="#7CE2E9"
-                                app:cardCornerRadius="14dp"
-                                app:strokeColor="#C8CCE5"
-                                app:strokeWidth="1dp" />
-
-                            <com.google.android.material.card.MaterialCardView
+                                android:background="@drawable/select_brown"
+                                android:button="@null" />
+                            <RadioButton
+                                android:id="@+id/colorGreen"
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:layout_marginEnd="12dp"
-                                app:cardBackgroundColor="#A75959"
-                                app:cardCornerRadius="14dp"
-                                app:strokeColor="#C8CCE5"
-                                app:strokeWidth="1dp" />
-
-                            <com.google.android.material.card.MaterialCardView
+                                android:background="@drawable/select_green"
+                                android:button="@null" />
+                            <RadioButton
+                                android:id="@+id/colorYellow"
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:layout_marginEnd="12dp"
-                                app:cardBackgroundColor="#76CE68"
-                                app:cardCornerRadius="14dp"
-                                app:strokeColor="#C8CCE5"
-                                app:strokeWidth="1dp" />
+                                android:background="@drawable/select_yellow"
+                                android:button="@null" />
+                        </RadioGroup>
 
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
-                                android:layout_marginEnd="12dp"
-                                app:cardBackgroundColor="#FFBF60"
-                                app:cardCornerRadius="14dp"
-                                app:strokeColor="#C8CCE5"
-                                app:strokeWidth="1dp" />
-                        </LinearLayout>
+
+                        <!--                        <LinearLayout-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="horizontal">-->
+
+
+<!--                            <com.google.android.material.card.MaterialCardView-->
+<!--                                android:layout_width="36dp"-->
+<!--                                android:layout_height="36dp"-->
+<!--                                android:layout_marginEnd="12dp"-->
+<!--                                app:cardBackgroundColor="#C7C8D9"-->
+<!--                                app:cardCornerRadius="14dp"-->
+<!--                                app:strokeColor="#C8CCE5"-->
+<!--                                app:strokeWidth="1dp" />-->
+
+<!--                            <com.google.android.material.card.MaterialCardView-->
+<!--                                android:layout_width="36dp"-->
+<!--                                android:layout_height="36dp"-->
+<!--                                android:layout_marginEnd="12dp"-->
+<!--                                app:cardBackgroundColor="#F97171"-->
+<!--                                app:cardCornerRadius="14dp"-->
+<!--                                app:strokeColor="#C8CCE5"-->
+<!--                                app:strokeWidth="1dp" />-->
+
+<!--                            <com.google.android.material.card.MaterialCardView-->
+<!--                                android:layout_width="36dp"-->
+<!--                                android:layout_height="36dp"-->
+<!--                                android:layout_marginEnd="12dp"-->
+<!--                                app:cardBackgroundColor="#D796F5"-->
+<!--                                app:cardCornerRadius="14dp"-->
+<!--                                app:strokeColor="#C8CCE5"-->
+<!--                                app:strokeWidth="1dp" />-->
+
+<!--                            <com.google.android.material.card.MaterialCardView-->
+<!--                                android:layout_width="36dp"-->
+<!--                                android:layout_height="36dp"-->
+<!--                                android:layout_marginEnd="12dp"-->
+<!--                                app:cardBackgroundColor="#7CE2E9"-->
+<!--                                app:cardCornerRadius="14dp"-->
+<!--                                app:strokeColor="#C8CCE5"-->
+<!--                                app:strokeWidth="1dp" />-->
+
+<!--                            <com.google.android.material.card.MaterialCardView-->
+<!--                                android:layout_width="36dp"-->
+<!--                                android:layout_height="36dp"-->
+<!--                                android:layout_marginEnd="12dp"-->
+<!--                                app:cardBackgroundColor="#A75959"-->
+<!--                                app:cardCornerRadius="14dp"-->
+<!--                                app:strokeColor="#C8CCE5"-->
+<!--                                app:strokeWidth="1dp" />-->
+
+<!--                            <com.google.android.material.card.MaterialCardView-->
+<!--                                android:layout_width="36dp"-->
+<!--                                android:layout_height="36dp"-->
+<!--                                android:layout_marginEnd="12dp"-->
+<!--                                app:cardBackgroundColor="#76CE68"-->
+<!--                                app:cardCornerRadius="14dp"-->
+<!--                                app:strokeColor="#C8CCE5"-->
+<!--                                app:strokeWidth="1dp" />-->
+
+<!--                            <com.google.android.material.card.MaterialCardView-->
+<!--                                android:layout_width="36dp"-->
+<!--                                android:layout_height="36dp"-->
+<!--                                android:layout_marginEnd="12dp"-->
+<!--                                app:cardBackgroundColor="#FFBF60"-->
+<!--                                app:cardCornerRadius="14dp"-->
+<!--                                app:strokeColor="#C8CCE5"-->
+<!--                                app:strokeWidth="1dp" />-->
+<!--                        </LinearLayout>-->
                     </HorizontalScrollView>
                 </LinearLayout>
 

@@ -109,7 +109,7 @@ object CartManager {
                 price = product.price,
                 image = product.image,
                 quantity = 1,
-                category = product.category,
+                category = product.category
             )
 
             cartItems.add(item)

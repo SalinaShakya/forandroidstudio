@@ -127,7 +127,8 @@ class PopularBrandAdapter(
                 id = product.id,
                 title = product.title,
                 price = product.price,
-                image = product.image
+                image = product.image,
+                category=product.category
             )
 
             val isFav = FavoriteManager.favorites.any { it.id == product.id }

@@ -146,9 +146,11 @@ class FeaturedProductsAdapter(
                 id = product.id,
                 title = product.title,
                 price = product.price,
-                image = product.image
-            )
+                image = product.image,
+                category=product.category
 
+            )
+//            FavoriteManager.addFavorite(favorite) //added
             val isFav = FavoriteManager.favorites.any { it.id == product.id }
 
             if (isFav) {

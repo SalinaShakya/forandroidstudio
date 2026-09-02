@@ -2,10 +2,8 @@ package com.example.myview.data
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateListOf
-import com.example.myview.data.CartManager.cartItems
 import com.example.myview.data.local.DatabaseProvider
 import com.example.myview.data.local.FavoriteEntity
-import com.example.myview.data.model.CartItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,7 +50,6 @@ object FavoriteManager { //single instance as in no need to val fav=FavoriteMang
     fun addFavorite(favorite: FavoriteEntity) {
 
 //        favorites.add(favorite)
-
 //        CoroutineScope(Dispatchers.IO).launch {
 //            favoriteDao.insertFavorite(favorite)
         val exists = favorites.any { it.id == favorite.id }

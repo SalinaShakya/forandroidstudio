@@ -60,21 +60,27 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.myview.data.CartManager
 import com.example.myview.data.FavoriteManager
 import com.example.myview.data.local.FavoriteEntity
+import com.example.myview.data.model.ProductResponse
+import com.example.myview.data.model.Rating
+import com.example.myview.ui.viewmodel.FavoriteScreenViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoritesScreen( //the main
     items: List<FavoriteEntity>,
+    viewModel: FavoriteScreenViewModel = viewModel(),
     onBackClick: () -> Unit = {},
     onCartClick: () -> Unit = {}
 ) {
     // 1. Selection State
-    val selectedItems = remember { mutableStateListOf<Int>() }
+    val selectedItems = viewModel.selectedItems
     val isAllSelected = items.isNotEmpty() && selectedItems.size == items.size
 
     Scaffold( // the page container
@@ -144,9 +150,10 @@ fun FavoritesScreen( //the main
                         Checkbox(
                             checked = isAllSelected,
                             onCheckedChange = { checked ->
-                                selectedItems.clear()
                                 if (checked) {
-                                    selectedItems.addAll(items.map { it.id })
+                                    viewModel.selectAll(items.map { it.id })
+                                } else {
+                                    selectedItems.clear()
                                 }
                             },
                             colors = CheckboxDefaults.colors(checkedColor = Color(0xFF4CAF50))
@@ -158,7 +165,7 @@ fun FavoritesScreen( //the main
                         )
                     }
 
-                    TextButton(onClick = { /* Handle delete all logic */ }) {
+                    TextButton(onClick = { viewModel.clearAll() }) {
                         Text(
                             text = "DELETE ALL",
                             color = Color.Gray,
@@ -262,7 +269,7 @@ fun FavoritesScreen( //the main
                                             maxLines = 1
                                         )
                                         Text(
-                                            text = "CELEINE", // Placeholder brand
+                                            text = item.category.uppercase(), // Placeholder brand
                                             style = MaterialTheme.typography.bodySmall,
                                             color = Color.LightGray
                                         )
@@ -290,7 +297,18 @@ fun FavoritesScreen( //the main
                                             modifier = Modifier
                                                 .size(36.dp)
                                                 .clip(RoundedCornerShape(8.dp))
-                                                .clickable { /* Add to cart */ },
+                                                .clickable {
+                                                    val product = ProductResponse(
+                                                        id = item.id,
+                                                        title = item.title,
+                                                        price = item.price,
+                                                        image = item.image,
+                                                        category = item.category,
+                                                        description = "",
+                                                        rating = Rating(0.0, 0)
+                                                    )
+                                                    CartManager.addToCart(product)
+                                                },
                                             color = Color(0xFF4CAF50)
                                         ) {
                                             Box(contentAlignment = Alignment.Center) {
@@ -314,8 +332,7 @@ fun FavoritesScreen( //the main
                                     .clip(CircleShape)
                                     .background(if (isSelected) Color(0xFF4CAF50) else Color(0xFFE0E0E0))
                                     .clickable {
-                                        if (isSelected) selectedItems.remove(item.id)
-                                        else selectedItems.add(item.id)
+                                        viewModel.toggleSelection(item.id)
                                     }
                                     .align(Alignment.TopStart),
                                 contentAlignment = Alignment.Center
@@ -347,7 +364,8 @@ fun FavoritesScreenPreview() {
                 id = 1,
                 title = "Sample Product",
                 price = 999.0,
-                image = ""
+                image = "",
+                category = "Sample Category" //ViewModel
             )
         )
         FavoritesScreen(items = sampleItems)
