@@ -99,4 +99,6 @@ dependencies {
 
     implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
 
+    implementation("org.osmdroid:osmdroid-android:6.1.18")
+
 }
