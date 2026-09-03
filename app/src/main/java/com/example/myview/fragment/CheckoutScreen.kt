@@ -42,7 +42,8 @@ import org.osmdroid.views.MapView
 @Composable
 fun CheckoutScreen(
     viewModel: CheckoutViewModel,
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {} ,
+    onAddAddressClick: () -> Unit = {} // New parameter for redirection
 ) {
     val selectedPayment by viewModel.selectedPayment.collectAsState()
     val address by viewModel.deliveryAddress.collectAsState()
@@ -249,13 +250,25 @@ fun CheckoutScreen(
                         Column(modifier = Modifier.padding(start = 12.dp,), //
 
                         ) {
-                            Text(text = if (address == "Delivery Address Not Set") "Add Shipping Address" else
-                                "Delivery Address", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color(0xFF808080))
                             Text(text = address,
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF182B3C))
-
+                                color = Color(0xFF808080))
+//                            Text(text = if (address == "Delivery Address Not Set") "Add Shipping Address" else
+//                                "Delivery Address", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color(0xFF182B3C))
+//
+                            Text(
+                                text = if (address == "Delivery Address Not Set") "Add Shipping Address" else "Delivery Address",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF182B3C),
+                                modifier = Modifier.clickable {
+                                    // Trigger redirection ONLY when clicking this text and address is not set
+                                    if (address == "Delivery Address Not Set") {
+                                        onAddAddressClick()
+                                    }
+                                }
+                            )
 
 //
 //                            Text(text = if (address == "Delivery Address Not Set") "Add Shipping Address" else

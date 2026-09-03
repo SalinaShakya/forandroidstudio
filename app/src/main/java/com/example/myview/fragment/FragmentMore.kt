@@ -34,9 +34,9 @@ class FragmentMore : Fragment() {
         val currentUser = FirebaseAuth.getInstance().currentUser
 
         if (currentUser != null) {
-            // 1. The Log Out button listener
-            binding.layoutLogout.root.visibility = View.VISIBLE
-                binding.layoutLogout.LogOutButtonInclude.setOnClickListener {                // A. Sign out from Firebase
+
+            binding.layoutLogout.root.visibility = View.VISIBLE // 1. The Log Out button listener
+                binding.layoutLogout.LogOutButtonInclude.setOnClickListener {
                 FirebaseAuth.getInstance().signOut()
 
                 // B. Clear the Firestore details manually from the screen (Optional but good)
