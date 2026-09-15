@@ -1,10 +1,13 @@
-package com.example.myview.fragment
+package com.example.myview.ui.compose
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.MapView
 
 @Composable
 fun MapPicker() {
@@ -13,11 +16,11 @@ fun MapPicker() {
     // This is the "Bridge" that lets legacy OSM work in modern Compose
     AndroidView(
         factory = { ctx ->
-            org.osmdroid.views.MapView(ctx).apply {
-                setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK)
+            MapView(ctx).apply {
+                setTileSource(TileSourceFactory.MAPNIK)
                 setMultiTouchControls(true) // Allows zooming
                 controller.setZoom(15.0)
-                controller.setCenter(org.osmdroid.util.GeoPoint(27.6756, 85.3168)) // Initial view
+                controller.setCenter(GeoPoint(27.6756, 85.3168)) // Initial view
             }
         },
         modifier = Modifier.fillMaxSize()

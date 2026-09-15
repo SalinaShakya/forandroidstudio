@@ -6,6 +6,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.viewModels
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.example.myview.fragment.CheckoutScreen
 import com.example.myview.ui.viewmodel.CheckoutViewModel
 import java.io.File
@@ -35,10 +39,29 @@ enableEdgeToEdge()
         //
         setContent {
             MaterialTheme {
-                CheckoutScreen(
-                    viewModel = viewModel,
-                    onBackClick = { finish() }
-                )
+//                CheckoutScreen(
+//                    viewModel = viewModel,
+//                    onBackClick = { finish() }
+                // Inside CheckoutActivity.kt
+                setContent {
+                    MaterialTheme {
+                        var currentScreen by remember { mutableStateOf("checkout") }
+
+                        if (currentScreen == "checkout") {
+                            CheckoutScreen(
+                                viewModel = viewModel,
+                                onBackClick = { finish() },
+                                onAddAddressClick = { currentScreen = "add_address" } // Handle the redirection
+                            )
+                        } else {
+                            // Show the ShippingAddressFirst screen
+                            com.example.myview.fragment.ShippingAddressFirst(
+                                onBack = { currentScreen = "checkout" }
+                            )
+                        }
+                    }
+                }
+
             }
         }
     }

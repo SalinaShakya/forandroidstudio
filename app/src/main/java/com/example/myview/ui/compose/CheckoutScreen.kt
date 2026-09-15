@@ -1,5 +1,6 @@
-package com.example.myview.fragment
+package com.example.myview.ui.compose
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,10 +19,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,11 +30,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.myview.R
-import com.example.myview.data.local.FavoriteEntity
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.myview.data.model.CartItem
 import com.example.myview.ui.viewmodel.CheckoutViewModel
+import org.osmdroid.events.MapListener
+import org.osmdroid.events.ScrollEvent
+import org.osmdroid.events.ZoomEvent
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
@@ -42,7 +45,9 @@ import org.osmdroid.views.MapView
 @Composable
 fun CheckoutScreen(
     viewModel: CheckoutViewModel,
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {} ,
+    onAddAddressClick: () -> Unit = {}, // New parameter for redirection
+    onEsewaClick: () -> Unit = {}
 ) {
     val selectedPayment by viewModel.selectedPayment.collectAsState()
     val address by viewModel.deliveryAddress.collectAsState()
@@ -54,7 +59,7 @@ fun CheckoutScreen(
     )
     var showMap by remember { mutableStateOf(false) }
 
-    val context = androidx.compose.ui.platform.LocalContext.current
+    val context = LocalContext.current
 
     if (showSheet) {
         ModalBottomSheet(
@@ -131,14 +136,14 @@ fun CheckoutScreen(
                         setMultiTouchControls(true)
                         controller.setZoom(15.0)
                         controller.setCenter(GeoPoint(27.6756, 85.3168)) // Initial center (e.g. Kathmandu)
-//slidable
-                        addMapListener(object : org.osmdroid.events.MapListener {
-                            override fun onScroll(event: org.osmdroid.events.ScrollEvent?): Boolean {
+//slideable
+                        addMapListener(object : MapListener {
+                            override fun onScroll(event: ScrollEvent?): Boolean {
                                 // Update the instance reference every time the map moves
                                 mapViewInstance = this@apply
                                 return true
                             }
-                            override fun onZoom(event: org.osmdroid.events.ZoomEvent?): Boolean = true
+                            override fun onZoom(event: ZoomEvent?): Boolean = true
 
                         })
 //TILL HERE
@@ -214,53 +219,66 @@ fun CheckoutScreen(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(90.dp),
+                        .heightIn(min = 90.dp), // Allow the card to grow, but stay at least 90dp
                     shape = RoundedCornerShape(20.dp),
                     colors = CardDefaults.cardColors(containerColor = Color.White),
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                 ) {
                     Row(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(start = 20.dp),
+                            .fillMaxWidth()
+                            .padding(vertical = 12.dp, horizontal = 20.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        // 1. LEFT: The Location Pin Icon
                         Box(contentAlignment = Alignment.Center) {
                             Image(painter = painterResource(id = R.drawable.rectangle), contentDescription = null, modifier = Modifier.size(50.dp))
                             Image(painter = painterResource(id = R.drawable.location), contentDescription = null, modifier = Modifier.size(38.dp))
-//                            Image(
-//                                painter = painterResource(id = R.drawable.ic_checkoutplus),
-//                                contentDescription = "Add Address",
-//                                modifier = Modifier
-//                                    .size(38.dp)
-//                                    .offset(x = 270.dp)
-//                                    .clickable { showSheet = true }
-//                            )
-                            //to change into the pencil thing using if else
-                            Image(  painter = painterResource( id = if (address == "Delivery Address Not Set") R.drawable.ic_checkoutplus else R.drawable.ic_edit ),
-                                contentDescription = "Add Address",
-                                modifier = Modifier
-                                    .size(38.dp)
-                                    .offset(x = 280.dp)
-                                    .clickable { showSheet = true }
+                        }
+
+                        // 2. MIDDLE: The Address Text
+                        Column(
+                            modifier = Modifier
+                                .padding(start = 12.dp)
+                                .weight(1f)
+                        ) {
+                            Text(
+                                text = if (address == "Delivery Address Not Set") "Delivery Address Not Set" else "Delivery Address",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF808080)
+                            )
+                            Text(
+                                text = if (address == "Delivery Address Not Set") "Add Shipping Address" else address,
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF182B3C),
+                                maxLines = 2, // Limit to 2 lines for a clean look
+                                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis, // Add "..." if it overflows
+                                modifier = Modifier.clickable {
+                                    if (address == "Delivery Address Not Set") {
+                                        onAddAddressClick()
+                                    }
+                                }
                             )
                         }
 
-                        Column(modifier = Modifier.padding(start = 12.dp,), //
-
-                        ) {
-                            Text(text = if (address == "Delivery Address Not Set") "Add Shipping Address" else
-                                "Delivery Address", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color(0xFF808080))
-                            Text(text = address,
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color(0xFF182B3C))
-
-
-//
-//                            Text(text = if (address == "Delivery Address Not Set") "Add Shipping Address" else
-//                                "Delivery Address", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color(0xFF182B3C))
-                        }
+                        // 3. RIGHT: The Action Icon
+                        Image(
+                            painter = painterResource(
+                                id = if (address == "Delivery Address Not Set") R.drawable.ic_checkoutplus else R.drawable.ic_edit
+                            ),
+                            contentDescription = "Action Icon",
+                            modifier = Modifier
+                                .size(38.dp)
+                                .clickable {
+                                    if (address == "Delivery Address Not Set") {
+                                        showSheet = true
+                                    } else {
+                                        onAddAddressClick()
+                                    }
+                                }
+                        )
                     }
                 }
 
@@ -332,7 +350,10 @@ fun CheckoutScreen(
                             icon = R.drawable.ic_brand,
                             label = "Pay with eSewa",
                             isSelected = selectedPayment == "Pay with eSewa",
-                            onClick = { viewModel.selectPayment("Pay with eSewa") }
+                            onClick = {
+                                viewModel.selectPayment("Pay with eSewa")
+                                onEsewaClick()
+                            }
                         )
                     }
                 }
@@ -393,7 +414,8 @@ fun OrderItemRow(item: CartItem) {
                 text = item.category.uppercase(),
                 fontSize = 11.sp,
                 color = Color.LightGray,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+
             )
             Spacer(modifier = Modifier.height(8.dp))
             
@@ -523,6 +545,7 @@ fun GrandTotal(price: String) {
 
 
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Preview(showBackground = true)
 @Composable
 fun CheckoutScreenPreview() {

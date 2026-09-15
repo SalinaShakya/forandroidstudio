@@ -1,4 +1,4 @@
-package com.example.myview.fragment
+package com.example.myview.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -29,6 +29,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
+import com.google.android.material.carousel.MultiBrowseCarouselStrategy
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
@@ -106,7 +107,7 @@ class FragmentHome : Fragment() {
         binding.carouselRecyclerView.setHasFixedSize(true)
 //        binding.carouselRecyclerView.layoutManager = CarouselLayoutManager()
         binding.carouselRecyclerView.layoutManager = CarouselLayoutManager(
-            com.google.android.material.carousel.MultiBrowseCarouselStrategy()
+            MultiBrowseCarouselStrategy()
         )
         val snapHelper = CarouselSnapHelper()
         snapHelper.attachToRecyclerView(binding.carouselRecyclerView)

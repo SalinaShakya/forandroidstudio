@@ -1,16 +1,19 @@
 package com.example.myview.ui.viewmodel
+
 import androidx.lifecycle.ViewModel
-//import androidx.preference.isNotEmpty
+import androidx.lifecycle.viewModelScope
 import com.example.myview.data.CartManager
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import android.location.Geocoder
-import java.util.Locale
+import com.example.myview.data.local.DatabaseProvider
+import com.example.myview.data.local.ShippingAddressEntity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
-class CheckoutViewModel : ViewModel(){
+class CheckoutViewModel : ViewModel() {
 
+    private val addressDao = DatabaseProvider.getDatabase(CartManager.context!!).shippingAddressDao()
 
     // 1. Get items from CartManager
     val cartItems = CartManager.cartItems
@@ -22,11 +25,55 @@ class CheckoutViewModel : ViewModel(){
     private val _deliveryAddress = MutableStateFlow("Delivery Address Not Set")
     val deliveryAddress: StateFlow<String> = _deliveryAddress
 
+    private val _fullName = MutableStateFlow("")
+    val fullName: StateFlow<String> = _fullName
+
+    // NEW: Support for multiple addresses observed from Room
+    val addressList: StateFlow<List<ShippingAddressEntity>> = addressDao.getAllAddresses()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
+
+    fun addAddress(name: String, phone: String, address: String, label: String = "Home") {
+        val id = java.util.UUID.randomUUID().toString()
+        val entity = ShippingAddressEntity(
+            id = id,
+            fullName = name,
+            phone = phone,
+            address = address,
+            label = label,
+            isDefault = false
+        )
+        viewModelScope.launch(Dispatchers.IO) {
+            addressDao.insertAddress(entity)
+        }
+        
+        // Auto-select if it's the first one
+        if (_deliveryAddress.value == "Delivery Address Not Set") {
+            _fullName.value = name
+            _deliveryAddress.value = address
+        }
+    }
+
+    fun selectAddress(shippingAddress: ShippingAddressEntity) {
+        _fullName.value = shippingAddress.fullName
+        _deliveryAddress.value = shippingAddress.address
+        // Sync to cloud if needed
+        saveAddressToFirestore(shippingAddress.address)
+    }
+
+    fun deleteAddress(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            addressDao.deleteById(id)
+        }
+    }
+
     init {
         loadAddressFromFirestore()
     }
 
-    //TO SAVE DATA (ADDRESS) IN THE FIRESTORE
     private fun loadAddressFromFirestore() {
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         if (uid != null) {
@@ -52,47 +99,46 @@ class CheckoutViewModel : ViewModel(){
         _selectedPayment.value = method
     }
 
-//    fun updateAddress(lat: Double, lon: Double) {
-//        _deliveryAddress.value = "Lat: ${String.format("%.4f", lat)}, Lon: ${String.format("%.4f", lon)}"
-//
-//    }
-fun updateAddress(context: android.content.Context, lat: Double, lon: Double) {
-    val geocoder = android.location.Geocoder(context, java.util.Locale.getDefault())
-    try {
-        val addresses = geocoder.getFromLocation(lat, lon, 1)
-        val readableAddress = if (addresses?.isNotEmpty() == true) {
-            addresses[0].getAddressLine(0)
-        } else {
-            "Lat: $lat, Lon: $lon"
-        }
-
-        // Update UI
-        _deliveryAddress.value = readableAddress
-
-        // Sync to Firebase
-        saveAddressToFirestore(readableAddress)
-
-    } catch (e: Exception) {
-        _deliveryAddress.value = "Lat: $lat, Lon: $lon"
-    }
-}
-
-private fun saveAddressToFirestore(address: String) {
-    val uid = FirebaseAuth.getInstance().currentUser?.uid
-    if (uid != null) {
-        FirebaseFirestore.getInstance().collection("Users").document(uid)
-            .update("address", address)
-            .addOnFailureListener {
-                // If document update fails (e.g. field doesn't exist), try setting it
-                FirebaseFirestore.getInstance().collection("Users").document(uid)
-                    .set(mapOf("address" to address), com.google.firebase.firestore.SetOptions.merge())
+    fun updateAddress(context: android.content.Context, lat: Double, lon: Double) {
+        val geocoder = android.location.Geocoder(context, java.util.Locale.getDefault())
+        try {
+            val addresses = geocoder.getFromLocation(lat, lon, 1)
+            val readableAddress = if (addresses?.isNotEmpty() == true) {
+                addresses[0].getAddressLine(0)
+            } else {
+                "Lat: $lat, Lon: $lon"
             }
-    }
-}
 
+            // Update UI
+            _deliveryAddress.value = readableAddress
+
+            // Sync to Firebase
+            saveAddressToFirestore(readableAddress)
+
+        } catch (e: Exception) {
+            _deliveryAddress.value = "Lat: $lat, Lon: $lon"
+        }
+    }
+
+    fun setAddress(name: String, phone: String, newAddress: String) {
+        _fullName.value = name
+        _deliveryAddress.value = newAddress
+        saveAddressToFirestore(newAddress)
+    }
+
+    private fun saveAddressToFirestore(address: String) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        if (uid != null) {
+            FirebaseFirestore.getInstance().collection("Users").document(uid)
+                .update("address", address)
+                .addOnFailureListener {
+                    FirebaseFirestore.getInstance().collection("Users").document(uid)
+                        .set(mapOf("address" to address), com.google.firebase.firestore.SetOptions.merge())
+                }
+        }
+    }
 
     fun placeOrder(onComplete: () -> Unit) {
-        // Logic to sync with Firestore goes here...
         onComplete()
     }
 }
