@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import com.example.myview.data.FavoriteManager.favorites
-import com.example.myview.fragment.FavoriteEmptyScreen
-import com.example.myview.fragment.FavoritesScreen
-import com.example.myview.fragment.FragmentHome
+import com.example.myview.ui.compose.FavoriteEmptyScreen
+import com.example.myview.ui.compose.FavoritesScreen
 
 class FragmentFavourite : Fragment() {
 
