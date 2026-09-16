@@ -25,6 +25,11 @@ class CheckoutViewModel : ViewModel() {
     private val _deliveryAddress = MutableStateFlow("Delivery Address Not Set")
     val deliveryAddress: StateFlow<String> = _deliveryAddress
 
+
+    val subTotal: Double get() = cartItems.sumOf { it.price * it.quantity }
+    val taxAmount: Double get() = subTotal * 0.13 // 13% Tax
+    val shippingCharge: Double = 1.0 // Fixed Rs. 100
+
     private val _fullName = MutableStateFlow("")
     val fullName: StateFlow<String> = _fullName
 
@@ -90,9 +95,8 @@ class CheckoutViewModel : ViewModel() {
     }
 
     // 3. Calculation logic
-    fun getGrandTotal(): Double {
-        return cartItems.sumOf { it.price * it.quantity }
-    }
+    fun getGrandTotal(): Double = subTotal + taxAmount + shippingCharge
+
 
     // 4. Actions
     fun selectPayment(method: String) {
