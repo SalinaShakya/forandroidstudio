@@ -1,6 +1,7 @@
 package com.example.myview.ui.compose
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -202,7 +203,12 @@ fun CheckoutScreen(
                 )
             },
             bottomBar = {
-                GrandTotal(price = "${viewModel.getGrandTotal()}")
+                GrandTotal(
+                    subTotal = viewModel.subTotal,
+                    tax = viewModel.taxAmount,
+                    shipping = viewModel.shippingCharge,
+                    grandTotal = viewModel.getGrandTotal()
+                )
             }
         ) { innerPadding ->
             Column(
@@ -340,7 +346,10 @@ fun CheckoutScreen(
                             icon = R.drawable.ic_payment,
                             label = "Cash on Delivery",
                             isSelected = selectedPayment == "Cash on Delivery",
-                            onClick = { viewModel.selectPayment("Cash on Delivery") }
+                            onClick = { 
+                                viewModel.selectPayment("Cash on Delivery")
+                                onEsewaClick() // Trigger the navigation callback
+                            }
                         )
                         Spacer(modifier = Modifier.height(12.dp))
 
@@ -480,55 +489,91 @@ fun PaymentItem(icon: Int, label: String, isSelected: Boolean, onClick: () -> Un
 }
 
 @Composable
-fun GrandTotal(price: String) {
+fun GrandTotal(
+    subTotal: Double,
+    tax: Double,
+    shipping: Double,
+    grandTotal: Double
+) {
+    var isExpanded by remember { mutableStateOf(false) }
+
     // 1. Outer Box that holds everything and allows overflow
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp), // Height of bar (80) + half the circle (20)
-        contentAlignment = Alignment.BottomCenter
+            .animateContentSize(), // Smooth transition when expanding
+        contentAlignment = Alignment.TopCenter
     ) {
-        // 2. The White Bar (Surface) - Exactly 80dp high
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp),
-            color = Color.White,
-            shadowElevation = 8.dp
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 20.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+        Column(modifier = Modifier.fillMaxWidth()) {
+            // This spacer creates the 20dp of invisible space at the top of the bottomBar
+            // so the circle button can sit there without being clipped by the Scaffold
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // 2. The White Bar (Surface)
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = Color.White,
+                tonalElevation = 0.dp,
+
+                shadowElevation = 8.dp
             ) {
-                Column {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = "Grand Total", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp)
+                        .padding(top = 20.dp, bottom = 15.dp)
+                ) {
+                    // breakdown details
+                    if (isExpanded) {
+                        PriceRow(label = "Sub Total", value = subTotal)
+                        PriceRow(label = "Tax (13%)", value = tax)
+                        PriceRow(label = "Shipping Charge", value = shipping)
+                        Spacer(modifier = Modifier.height(10.dp))
+                        HorizontalDivider(
+                            modifier = Modifier.fillMaxWidth(),
+                            thickness = 1.dp,
+                            color = Color(0xFFF2F2F2)
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                    }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    text = "Grand Total",
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Text(
+                                    text = " *included TAX",
+                                    fontSize = 10.sp,
+                                    color = Color.LightGray,
+                                    modifier = Modifier.padding(top = 4.dp)
+                                )
+                            }
+                        }
                         Text(
-                            text = " *included TAX",
-                            fontSize = 10.sp,
-                            color = Color.LightGray,
-                            modifier = Modifier.padding(top = 4.dp)
+                            text = "Rs. ${String.format("%.2f", grandTotal)}",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF2ABB00)
                         )
                     }
                 }
-                Text(
-                    text = "Rs. $price",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF2ABB00)
-                )
             }
         }
 
-        // 3. The Circle - Placed OUTSIDE the Surface so it doesn't get clipped
+        // 3. The Circle Button
         Box(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .size(40.dp)
-                .background(Color(0xFF2ABB00), CircleShape),
+                .background(Color(0xFF2ABB00), CircleShape)
+                .clickable { isExpanded = !isExpanded },
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -537,9 +582,27 @@ fun GrandTotal(price: String) {
                 tint = Color.White,
                 modifier = Modifier
                     .size(20.dp)
-                    .rotate(90f)
+                    .rotate(if (isExpanded) 270f else 90f)
             )
         }
+    }
+}
+
+@Composable
+fun PriceRow(label: String, value: Double) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = label, color = Color(0xFF808080), fontSize = 14.sp)
+        Text(
+            text = "Rs. ${String.format("%.2f", value)}",
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp,
+            color = Color(0xFF182B3C)
+        )
     }
 }
 
@@ -550,8 +613,9 @@ fun GrandTotal(price: String) {
 @Composable
 fun CheckoutScreenPreview() {
     MaterialTheme {
+        val viewModel = CheckoutViewModel()
         CheckoutScreen(
-            viewModel = CheckoutViewModel(),
+            viewModel = viewModel,
             onBackClick = {}
         )
     }
