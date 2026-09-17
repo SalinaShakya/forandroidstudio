@@ -119,6 +119,6 @@ fun ShippingAddAddressScreen(
 fun ShippingAddAddressScreenPreview() {
     MaterialTheme {
         val item=0
-        FavoritesScreen(items = emptyList())
+        ShippingAddAddressScreen()
     }
 }

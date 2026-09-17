@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -20,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -33,6 +35,7 @@ fun ShippingAddressFirst(
     onBack: () -> Unit = {},
     onEmpty: () -> Unit = {},
     onAddNew: () -> Unit = {},
+    onEdit: (com.example.myview.data.local.ShippingAddressEntity) -> Unit = {},
     viewModel: com.example.myview.ui.viewmodel.CheckoutViewModel = viewModel()
 ) {
     val addresses by viewModel.addressList.collectAsState()
@@ -70,15 +73,9 @@ fun ShippingAddressFirst(
                 items = addresses,
                 key = { it.id }
             ) { item ->
+                val scope = rememberCoroutineScope()
                 val dismissState = rememberSwipeToDismissBoxState(
-                    confirmValueChange = { value ->
-                        if (value == SwipeToDismissBoxValue.EndToStart) {
-                            viewModel.deleteAddress(item.id)
-                            true
-                        } else {
-                            false
-                        }
-                    }
+                    confirmValueChange = { false } // Keep the box open for manual interaction
                 )
 
                 SwipeToDismissBox(
@@ -99,8 +96,29 @@ fun ShippingAddressFirst(
                             ) {
                                 Box(
                                     modifier = Modifier
+                                        .background(Color(0xFF2ABB00), CircleShape)
+                                        .padding(8.dp)
+                                        .clickable {
+                                            onEdit(item)
+                                            scope.launch { dismissState.snapTo(SwipeToDismissBoxValue.Settled) }
+                                        },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_edit),
+                                        contentDescription = "Edit",
+                                        tint = Color.Unspecified,
+                                        modifier = Modifier.size(24.dp)
+                                    )
+                                }
+                                Box(
+                                    modifier = Modifier
                                         .background(Color.Red, CircleShape)
-                                        .padding(8.dp),
+                                        .padding(8.dp)
+                                        .clickable {
+                                            viewModel.deleteAddress(item.id)
+                                            scope.launch { dismissState.snapTo(SwipeToDismissBoxValue.Settled) }
+                                        },
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Icon(
@@ -109,18 +127,7 @@ fun ShippingAddressFirst(
                                         tint = Color.White
                                     )
                                 }
-                                Box(
-                                    modifier = Modifier
-                                        .background(Color(0xFF2ABB00), CircleShape)
-                                        .padding(8.dp),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_edit),
-                                        contentDescription = "Edit",
-                                        tint = Color.White,
-                                    )
-                                }
+
                             }
                         }
                     },
@@ -180,5 +187,12 @@ fun ShippingAddressFirst(
                 }
             }
         }
+    }
+}
+@Preview(showBackground = true)
+@Composable
+fun ShippingAddressFirstPreview() {
+    MaterialTheme {
+        ShippingAddressFirst()
     }
 }
