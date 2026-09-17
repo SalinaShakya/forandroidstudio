@@ -128,11 +128,26 @@ class FragmentCart : Fragment() {
         // Listen for Item Count and Badge changes
         viewModel.itemCount.observe(viewLifecycleOwner) { count ->
             binding.item.text = "Items ($count)"
+            
             if (count > 0) {
+                binding.layoutCartUser.visibility = View.VISIBLE
+                binding.layoutEmptyCart.root.visibility = View.GONE
+                
                 binding.txtCartBadge.visibility = View.VISIBLE
                 binding.txtCartBadge.text = count.toString()
             } else {
+                binding.layoutCartUser.visibility = View.GONE
+                binding.layoutEmptyCart.root.visibility = View.VISIBLE
+                
                 binding.txtCartBadge.visibility = View.GONE
+                
+                // Handle "CONTINUE SHOPPING" button click
+                binding.layoutEmptyCart.btnContinueShopping.setOnClickListener {
+                    val intent = Intent(requireContext(), com.example.myview.MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    requireActivity().finish()
+                }
             }
         }
 

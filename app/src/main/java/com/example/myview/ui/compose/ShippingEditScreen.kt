@@ -1,12 +1,12 @@
 package com.example.myview.ui.compose
 
+
 import android.location.Geocoder
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -33,7 +33,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShippingAddressScreen(
+fun ShippingEditScreen(
     onBack: () -> Unit = {},
     onSave: (String, String, String, String) -> Unit = { _, _, _, _ -> }
 ) {
@@ -59,7 +59,7 @@ fun ShippingAddressScreen(
             topBar = {
                 CenterAlignedTopAppBar(
                     title = {
-                        Text("Add your new address")
+                        Text("Edit your Address")
                     },
                     navigationIcon = {
                         IconButton(onClick = onBack) {
@@ -107,14 +107,14 @@ fun ShippingAddressScreen(
 
                         OutlinedTextField(
                             value = fullName,
-                            onValueChange = { 
-                                fullName = it 
+                            onValueChange = {
+                                fullName = it
                                 val words = it.trim().split(" ").filter { it.isNotEmpty() }
                                 if (words.size >= 2) fullNameError = false
                             },
                             label = { Text("Enter Full Name") },
                             modifier = Modifier.fillMaxWidth(),
-                            placeholder = { Text("e.g. Salina KC") },
+                            placeholder = { Text("e.g. Salina Shakya") },
                             shape = RoundedCornerShape(16.dp),
                             isError = fullNameError,
                             supportingText = {
@@ -129,8 +129,8 @@ fun ShippingAddressScreen(
 
                         OutlinedTextField(
                             value = phone,
-                            onValueChange = { 
-                                phone = it 
+                            onValueChange = {
+                                phone = it
                                 if (it.length == 10 && (it.startsWith("98") || it.startsWith("97"))) {
                                     phoneError = false
                                 }
@@ -151,8 +151,8 @@ fun ShippingAddressScreen(
 
                         OutlinedTextField(
                             value = address,
-                            onValueChange = { 
-                                address = it 
+                            onValueChange = {
+                                address = it
                                 if (it.isNotBlank()) addressError = false
                             },
                             label = { Text("Enter Address") },
@@ -178,23 +178,23 @@ fun ShippingAddressScreen(
                         // Label
                         Text("Select a label")
 
-                        Row( 
-                            modifier = Modifier.fillMaxWidth(), 
-                            horizontalArrangement = Arrangement.spacedBy(8.dp) 
-                        ) { 
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
                             val labels = listOf("Home", "Office", "Other")
-                            labels.forEach { label -> 
-                                Button( 
+                            labels.forEach { label ->
+                                Button(
                                     onClick = { selectedLabel = label },
-                                    Modifier.height(34.dp), 
+                                    Modifier.height(34.dp),
                                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
-                                    colors = ButtonDefaults.buttonColors( 
+                                    colors = ButtonDefaults.buttonColors(
                                         containerColor = if (selectedLabel == label) Color(0xFF4CAF50) else Color.Transparent,
-                                        contentColor = if (selectedLabel == label) Color.White else Color.Gray 
+                                        contentColor = if (selectedLabel == label) Color.White else Color.Gray
                                     ),
                                     border = if (selectedLabel != label) BorderStroke(1.dp, Color.LightGray) else null,
-                                    shape = RoundedCornerShape(12.dp) 
-                                ) { 
+                                    shape = RoundedCornerShape(12.dp)
+                                ) {
                                     Text(label)
                                 }
                             }
@@ -249,6 +249,12 @@ fun ShippingAddressScreen(
                                 )
                             }
                         }
+                        Text(
+                            "Delete Address",
+                            fontSize = 11.sp,
+                            color = Color(0xFF717282),
+                            fontWeight = FontWeight.SemiBold
+                        )
 
                         // Save button
                         Button(
@@ -278,6 +284,7 @@ fun ShippingAddressScreen(
                 }
             }
         }
+
 
         // THE MAP OVERLAY
         if (showMap) {
@@ -345,8 +352,8 @@ fun ShippingAddressScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun ShippingAddressPreview() {
+fun ShippingEditScreen() {
     MaterialTheme {
-        ShippingAddressScreen()
+        ShippingEditScreen()
     }
 }
