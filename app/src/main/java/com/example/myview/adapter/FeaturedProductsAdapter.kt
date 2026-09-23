@@ -46,7 +46,7 @@ class FeaturedProductsAdapter(
 
         holder.binding.txtTitle.text = product.title
         holder.binding.txtCategory.text = product.category
-        holder.binding.txtPrice.text = "Rs. ${product.price}"
+        holder.binding.txtPrice.text = "Rs. ${String.format("%.2f", product.price)}"
 
         Glide.with(holder.itemView.context)
             .load(product.image)

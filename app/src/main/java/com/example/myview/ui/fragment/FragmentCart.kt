@@ -122,7 +122,7 @@ class FragmentCart : Fragment() {
 
         // Listen for Price changes
         viewModel.totalPrice.observe(viewLifecycleOwner) { total ->
-            binding.txtTotal.text = "Rs. $total"
+            binding.txtTotal.text = "Rs. ${String.format("%.2f", total)}"
         }
 
         // Listen for Item Count and Badge changes

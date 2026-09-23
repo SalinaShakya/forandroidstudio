@@ -10,7 +10,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.example.myview.fragment.CheckoutScreen
+//import com.example.myview.fragment.CheckoutScreen
+import com.example.myview.ui.compose.CheckoutScreen
 import com.example.myview.ui.viewmodel.CheckoutViewModel
 import java.io.File
 
@@ -39,29 +40,38 @@ enableEdgeToEdge()
         //
         setContent {
             MaterialTheme {
-//                CheckoutScreen(
-//                    viewModel = viewModel,
-//                    onBackClick = { finish() }
-                // Inside CheckoutActivity.kt
-                setContent {
-                    MaterialTheme {
-                        var currentScreen by remember { mutableStateOf("checkout") }
+                var currentScreen by remember { mutableStateOf("checkout") }
+                var selectedAddressForEdit by remember { mutableStateOf<com.example.myview.data.local.ShippingAddressEntity?>(null) }
 
-                        if (currentScreen == "checkout") {
-                            CheckoutScreen(
-                                viewModel = viewModel,
-                                onBackClick = { finish() },
-                                onAddAddressClick = { currentScreen = "add_address" } // Handle the redirection
-                            )
-                        } else {
-                            // Show the ShippingAddressFirst screen
-                            com.example.myview.fragment.ShippingAddressFirst(
-                                onBack = { currentScreen = "checkout" }
-                            )
-                        }
+                when (currentScreen) {
+                    "checkout" -> {
+                        CheckoutScreen(
+                            viewModel = viewModel,
+                            onBackClick = { finish() },
+                            onAddAddressClick = { currentScreen = "add_address" }
+                        )
+                    }
+                    "add_address" -> {
+                        com.example.myview.ui.compose.ShippingAddressFirst(
+                            onBack = { currentScreen = "checkout" },
+                            onAddNew = { currentScreen = "edit_address" },
+                            onEdit = { address ->
+                                selectedAddressForEdit = address
+                                currentScreen = "edit_address"
+                            }
+                        )
+                    }
+                    
+                    "edit_address" -> {
+                        com.example.myview.ui.compose.ShippingEditScreen(
+                            onBack = { currentScreen = "add_address" },
+                            onSave = { name, phone, address, label ->
+                                viewModel.addAddress(name, phone, address, label)
+                                currentScreen = "add_address"
+                            }
+                        )
                     }
                 }
-
             }
         }
     }

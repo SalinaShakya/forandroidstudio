@@ -59,7 +59,8 @@ class FeaturedActivity : AppCompatActivity() {
                 val product = RetrofitClient.apiService.getProductDetails(productId)
 
                 binding.txtName.text = product.title
-                binding.txtPrice.text = "Rs. ${product.price}"
+//                binding.txtPrice.text = "Rs. ${product.price}"
+                binding.txtPrice.text ="Rs. ${String.format("%.2f", product.price)}"
                 binding.txtDescrip.text = product.description
 
                 val images = listOf(product.image)
