@@ -17,16 +17,17 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 object CartManager {
 
+    var context: Context? = null
     val cartItems = mutableListOf<CartItem>() //cartitem
     private lateinit var cartDao: com.example.myview.data.local.CartDao
 
     val cartObservable = androidx.lifecycle.MutableLiveData<List<CartItem>>() //for my updates realtime
-    //    fun init(context: Context) {
 
     private fun notifyChange() {
         cartObservable.postValue(cartItems)
     }
     fun init(context: Context, onLoaded: (() -> Unit)? = null) {
+        this.context = context.applicationContext
 
         cartDao = DatabaseProvider
             .getDatabase(context)
@@ -284,5 +285,22 @@ object CartManager {
                     }
                 }
             }
+    }
+
+    fun clearCart() {
+        cartItems.clear()
+        CoroutineScope(Dispatchers.IO).launch {
+            cartDao.clearCart()
+        }
+        notifyChange()
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        if (uid != null) {
+            FirebaseFirestore.getInstance().collection("Users").document(uid)
+                .collection("Cart").get().addOnSuccessListener { snapshot ->
+                    for (doc in snapshot.documents) {
+                        doc.reference.delete()
+                    }
+                }
+        }
     }
 }

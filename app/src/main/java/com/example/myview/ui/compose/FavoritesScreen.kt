@@ -269,7 +269,7 @@ fun FavoritesScreen( //the main
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
                                         Text(
-                                            text = "Rs. ${item.price}",
+                                            text = "Rs. ${String.format("%.2f", item.price)}",
                                             style = MaterialTheme.typography.titleMedium,
                                             fontWeight = FontWeight.Bold,
                                             color = Color(0xFF4CAF50)

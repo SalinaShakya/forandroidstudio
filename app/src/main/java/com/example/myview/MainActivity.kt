@@ -9,13 +9,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import com.example.myview.databinding.ActivityMainBinding
-import com.example.myview.fragment.FragmentHome
+import com.example.myview.ui.fragment.FragmentHome
 import androidx.fragment.app.Fragment
 //import androidx.glance.visibility
 //import androidx.glance.visibility
-import com.example.myview.fragment.FragmentCart
+import com.example.myview.ui.fragment.FragmentCart
 //import com.example.myview.fragment.FavoritesScreen
-import com.example.myview.fragment.FragmentMore
+import com.example.myview.ui.fragment.FragmentMore
 import com.example.myview.data.CartManager
 import com.example.myview.data.FavoriteManager
 
